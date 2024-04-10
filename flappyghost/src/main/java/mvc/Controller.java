@@ -25,6 +25,9 @@ public class Controller {
 
     private int WIDTH, HEIGHT;
 
+    private long lastFire = 0;
+    private long fireTimer;
+
     public Controller(Model m, View v){
         this.model = m;
         this.view = v;
@@ -66,10 +69,17 @@ public class Controller {
 
     public void fireBall(){
         System.out.println("fireee");
-        double x = enemy.getX();
-        double y = enemy.getY();
-        PistolBall theBall = new PistolBall(x, y);
-        model.addNewPistolBall(theBall);
+        if(fireTimer - lastFire > 1e9) {
+            double x = enemy.getX() + enemy.getW() + 40;
+            double y = enemy.getY() + enemy.getH() / 2;
+            PistolBall theBall = new PistolBall(x, y);
+            model.addNewPistolBall(theBall);
+            model.printPistolList();
+            lastFire = fireTimer;
+        }
+        else{
+            System.out.println("Not enough time");
+        }
     }
     public void gameAnimation(){
         Image enemyImg = new Image(enemy.getImg_url());
@@ -122,6 +132,7 @@ public class Controller {
 
                 //update enemy
                 enemy.update(deltaTime);
+                context.drawImage(enemyImg, enemy.getX() - enemy.getW() / 2, enemy.getY() - enemy.getH() / 2);
 
                 //update pistolBall
                 int limitPistol = model.getPistolNumber() - 10;
@@ -129,18 +140,17 @@ public class Controller {
                     limitPistol = 0;
 
                 Image ballImg = new Image("ball.png");
-                for(int i = 0; i< limitPistol; i++){
-                    model.getPistolBallList()[i].update(deltaTime, enemy.getVx());
+                for(int i = limitPistol; i< model.getPistolNumber(); i++){
+                    model.getPistolBallList()[i].update(deltaTime, enemy.getVx() * 10);
                     PistolBall ball = model.getPistolBallList()[i];
-                    context.drawImage(ballImg, ball.getX(), ball.getY());
+                    context.fillOval(ball.getX() , ball.getY(), 10, 10);
                 }
 
 
-
-
-                context.drawImage(enemyImg, enemy.getX() - enemy.getW() / 2, enemy.getY() - enemy.getH() / 2);
-
                 lastTime = now;
+
+                fireTimer = now;
+
             }
         };
         timer.start();
@@ -153,4 +163,5 @@ public class Controller {
         coinGeneration();
         gameAnimation();
     }
+
 }

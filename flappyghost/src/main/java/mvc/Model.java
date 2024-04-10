@@ -89,6 +89,9 @@ public class Model {
     }
 
     public void printPistolList(){
-
+        for(int i = 0; i<pistolNumber; i++){
+            System.out.print("[" + pistolBallList[i].getX() + ", " + pistolBallList[i].getY() + "] ");
+        }
+        System.out.println();
     }
 }

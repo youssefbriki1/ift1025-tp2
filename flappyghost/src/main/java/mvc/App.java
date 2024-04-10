@@ -29,6 +29,7 @@ public class App extends Application {
         stage.setTitle("Flappy Ghost");
         stage.show();
 
+
         scene.setOnKeyPressed( ( event ) -> {
             if( event.getCode() == KeyCode.SPACE) {
                 System.out.println( "Space" );
