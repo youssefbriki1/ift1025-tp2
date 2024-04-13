@@ -67,6 +67,27 @@ public class Controller {
 
     }
 
+// To edit
+    public void heroGenerator(){
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Random rand = new Random();
+                int y_pos = rand.nextInt(370);
+                // A ajouter 
+                Image coinImg = new Image(heroType);
+                double w = coinImg.getWidth();
+                double h = coinImg.getHeight();
+                Coin coin = new Coin(640, y_pos, w, h);
+
+                model.addNewCoin(coin);
+
+//                System.out.println("I would be called every 2 seconds");
+            }
+        }, 0, 2000);
+
+    }
     public void fireBall(){
         System.out.println("fireee");
         if(fireTimer - lastFire > 1e9) {

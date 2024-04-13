@@ -99,4 +99,11 @@ public class Model {
         }
         System.out.println();
     }
+//  To be implemented 
+    public void addHero(Hero hero){
+        heroMap.put(hero.getY(), hero);
+    }
+
+// Add how we can add types of Heroes
+
 }
