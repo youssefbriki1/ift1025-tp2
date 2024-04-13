@@ -12,7 +12,7 @@ public class Enemy {
 
     private double ax, ay;
 
-    private int life;
+    private int life = 100;
     private int pieces;
 
     public Enemy(double x, double y, double vx, double vy, double ax, double ay, String img_url){
@@ -157,6 +157,18 @@ public class Enemy {
 
     public int getPieces() {
         return pieces;
+    }
+
+    public void setPieces(int pieces) {
+        this.pieces = pieces;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
     }
 
     public void fireBall(){

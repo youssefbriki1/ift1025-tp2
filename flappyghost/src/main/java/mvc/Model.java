@@ -3,6 +3,7 @@ package mvc;
 import mvc.entity.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Model {
@@ -11,6 +12,9 @@ public class Model {
 
     private Coin[] coinList = new Coin[100];
     private boolean[] coinEaten = new boolean[100];
+    // On stock le Y coord dans la hashmap
+    private HashMap<Double, Hero> heroMap = new HashMap<>(); 
+    
     private int coinMade;
 
     private PistolBall[] pistolBallList = new PistolBall[100];
@@ -33,6 +37,7 @@ public class Model {
     public GameBackground getBackground() {
         return background;
     }
+
 
     public void setBackground(GameBackground background) {
         this.background = background;

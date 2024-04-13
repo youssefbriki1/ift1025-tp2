@@ -124,6 +124,7 @@ public class Controller {
                             model.markCoinAsEaten(i);
                             int coinCount = model.eatenCoinCount();
                             view.updatePiece(coinCount);
+
                         }
                         context.drawImage(coinImg,  model.getCoinList()[i].getX(),  model.getCoinList()[i].getY());
 
