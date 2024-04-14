@@ -1,6 +1,5 @@
 package mvc.entity;
 
-import javafx.scene.image.Image;
 
 public class Enemy {
 
@@ -82,6 +81,22 @@ public class Enemy {
 
         return fl;
    }
+
+   public boolean checkHero(Hero hero){
+    if(
+           ( (this.x + this.w) < hero.getX() ) ||
+           ( (hero.getX() + hero.getW()) < this.x) ||
+           ( this.y > (hero.getY() + hero.getH()) ) ||
+           ( (this.y + this.h) < hero.getY() )
+    ){
+        return false;
+    }
+    else {
+        return true;
+    }
+
+}
+
 
     public double getX() {
         return x;

@@ -7,17 +7,17 @@ public class TankHero extends Hero {
         }
 
     @Override
-    void touched(Enemy enemy) {
+    public void touched(Enemy enemy) {
         enemy.setLife(enemy.getLife() / 2);
         }
 
     @Override
-    void isKilled(Enemy enemy) {
+    public void isKilled(Enemy enemy) {
         enemy.setPieces(enemy.getPieces() + 7);
         }
 
     @Override
-    void moving() {
+    public void moving() {
         // For x
         this.x = this.x + randomNumGenerator();
         double newY = this.y + randomNumGenerator();

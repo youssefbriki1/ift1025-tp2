@@ -14,6 +14,7 @@ public class Model {
     private boolean[] coinEaten = new boolean[100];
     // On stock le Y coord dans la hashmap
     private ArrayList<Hero> heroList = new ArrayList<>();
+    private int heroGenerated;
     
     private int coinMade;
 
@@ -24,6 +25,7 @@ public class Model {
         this.enemy = theEnemy;
         this.background = background;
         this.coinMade = 0;
+        this.heroGenerated = 0;
     }
 
     public Enemy getEnemy() {
@@ -101,11 +103,20 @@ public class Model {
     }
 //  To be implemented 
     public void addHero(Hero hero){
+        heroGenerated++;
         heroList.add(hero);
         }
 
     public void removeHero(Hero hero){
         heroList.remove(hero);
+    }
+
+    public int getHeroGenerated(){
+        return heroGenerated;
+    }
+
+    public ArrayList<Hero> getHeroList(){
+        return heroList;
     }
 
     // public static Hero createHero(){

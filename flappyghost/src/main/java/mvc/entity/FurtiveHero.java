@@ -2,15 +2,14 @@ package mvc.entity;
 
 public class FurtiveHero extends Hero{
     // A determiner
-    private double vx = 0;
-    private double vy = 0;
+    private double vy = 100;
 
     public FurtiveHero(double x, double y, String imgUrl){
         super(x, y, imgUrl);
         }
 
     @Override
-    void touched(Enemy enemy) {
+    public void touched(Enemy enemy) {
         int enemyPieces = enemy.getPieces();
         if (enemyPieces > 10){
             enemy.setPieces(enemyPieces - 10);
@@ -21,12 +20,12 @@ public class FurtiveHero extends Hero{
         }
 
     @Override
-    void isKilled(Enemy enemy) {
+    public void isKilled(Enemy enemy) {
         enemy.setPieces(enemy.getPieces() + 8);
         }
 
     @Override
-    void moving() {
+    public void moving() {
         // Condition to move the hero to not go over or under the screen
         if (this.y + this.vy > 0 && this.y + this.vy < 320){
             this.y += vy;

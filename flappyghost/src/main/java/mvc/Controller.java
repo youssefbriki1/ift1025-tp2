@@ -81,20 +81,21 @@ public class Controller {
                     int y_pos = rand.nextInt(370);
                     // Hero creation
                     Hero newHero;
-                    int heroType = (int) Math.random() * 3;
+                    double heroType = Math.random() * 3;
+                    System.out.println("Hero type: " + heroType);
 
-                    if(heroType == 0){
+                    if((int)heroType == 0){
                         // A corriger les positionnement
-                        newHero = new HandToHandHero(640, y_pos, null); 
+                        newHero = new HandToHandHero(640+Math.random() * 100, y_pos, "ball.png"); 
             
                     }
-                    else if(heroType == 1){
+                    else if((int)heroType == 1){
                         // A corriger
-                        newHero = new FurtiveHero(640, y_pos, null);
+                        newHero = new FurtiveHero(640+ Math.random() * 100, y_pos, "cheems.png");
                     }
                     else{
                         // A corriger
-                        newHero = new TankHero(640, y_pos, null);
+                        newHero = new TankHero(640+Math.random() * 100, y_pos, "perry.png");
                     }
             
                     Image heroImage = new Image(newHero.getImgUrl());
@@ -150,6 +151,23 @@ public class Controller {
                 context.drawImage(backgroundImg, background.getX(), 0);
                 context.drawImage(backgroundImg, background.getX() + 640, 0);
 
+                // Hero movement
+                int limitHero = model.getHeroGenerated() - 10;
+                if(limitHero < 0)
+                    limitHero = 0;
+                for(int i = limitHero; i<model.getHeroGenerated(); i++){
+                    Hero hero = model.getHeroList().get(i);
+                    hero.moving();
+                    hero.update(deltaTime, enemy.getVx());
+                    boolean ifTouch = enemy.checkHero(model.getHeroList().get(i));
+                    if (hero.isAlive() && ifTouch){
+                        hero.touched(enemy);
+                        System.out.println("Touched");
+                    }
+                    context.drawImage(new Image(model.getHeroList().get(i).getImgUrl()), model.getHeroList().get(i).getX(), model.getHeroList().get(i).getY());
+                }
+
+
 
 
                 //coin movement
@@ -203,6 +221,7 @@ public class Controller {
     public void startGame(){
         //showBackground();
         coinGeneration();
+        heroGenerator();
         gameAnimation();
     }
 

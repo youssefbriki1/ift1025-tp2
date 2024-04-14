@@ -7,6 +7,7 @@ public abstract class Hero {
     protected String imgUrl;
     protected double w;
     protected double h;
+    protected boolean isAlive = true;
 
     public Hero(double x, double y, String imgUrl){
         this.x = x;
@@ -15,9 +16,9 @@ public abstract class Hero {
     }
     
 
-    abstract void touched(Enemy enemy);
-    abstract void isKilled(Enemy enemy);
-    abstract void moving();    
+    public abstract void touched(Enemy enemy);
+    public abstract void isKilled(Enemy enemy);
+    public abstract void moving();    
     
     public double getX() {
         return x;
@@ -55,6 +56,15 @@ public abstract class Hero {
 
     public void setH(double h) {
         this.h = h;
+    }
+    public void update(double dt, double vx ){
+        this.x -= dt * vx;
+    }
+    public boolean isAlive() {
+        return isAlive;
+    }
+    public void setAlive(boolean isAlive) {
+        this.isAlive = isAlive;
     }
 
 }

@@ -23,7 +23,7 @@ public class View extends BorderPane {
     private HBox hbox = new HBox(0);
     private Button resume = new Button("Resume");
     private Separator sep1 = new Separator();
-    private Text life = new Text("Life: 100");
+    private Text life = new Text("Life: 100"); // 100 is the default life - to edit
     private Separator sep2 = new Separator();
     private Text piece = new Text("Piece: 0");
 

@@ -11,18 +11,18 @@ public class HandToHandHero extends Hero{
 
 
     @Override
-    void touched(Enemy enemy) {
+    public void touched(Enemy enemy) {
         enemy.setLife(0);
         }
 
     @Override
-    void isKilled(Enemy enemy) {
+    public void isKilled(Enemy enemy) {
         enemy.setPieces(enemy.getPieces() + 5);
     }
 
     // Useless method
     @Override
-    void moving() {
+    public void moving() {
         this.x += vx;
         this.y += vy; 
         }
