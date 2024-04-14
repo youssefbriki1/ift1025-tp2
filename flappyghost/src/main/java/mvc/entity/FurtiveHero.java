@@ -1,16 +1,13 @@
 package mvc.entity;
 
 public class FurtiveHero extends Hero{
-    private double x;
-    private double y;
-    private double w;
+    // A determiner
     private double vx = 0;
     private double vy = 0;
 
     public FurtiveHero(double x, double y, String imgUrl){
-        this.x = x;
-        this.y = y;
-    }
+        super(x, y, imgUrl);
+        }
 
     @Override
     void touched(Enemy enemy) {

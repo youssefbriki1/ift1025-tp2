@@ -1,14 +1,10 @@
 package mvc.entity;
 
 public class TankHero extends Hero {
-    private double x;
-    private double y;
-    private double w;
 
     public TankHero(double x, double y, String imgUrl){
-        this.x = x;
-        this.y = y;
-    }
+        super(x, y, imgUrl);
+        }
 
     @Override
     void touched(Enemy enemy) {
@@ -36,8 +32,8 @@ public class TankHero extends Hero {
         }
     }
 
-
-    public double randomNumGenerator(){
+    // Method to generate a random number in this particular case
+    private double randomNumGenerator(){
         int sign = Math.random() < 0.5 ? -1 : 1;
         int randomNumber = (int) (Math.random() * 30 + 1);
         return sign * randomNumber;

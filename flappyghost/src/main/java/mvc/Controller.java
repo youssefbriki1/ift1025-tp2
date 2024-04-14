@@ -7,8 +7,12 @@ import javafx.scene.input.KeyCode;
 import mvc.entity.Coin;
 import mvc.entity.Enemy;
 import mvc.entity.GameBackground;
+import mvc.entity.Hero;
 import mvc.entity.PistolBall;
-
+import mvc.entity.HandToHandHero;
+import mvc.entity.FurtiveHero;
+import mvc.entity.TankHero;
+import mvc.Model;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -68,26 +72,42 @@ public class Controller {
     }
 
 // To edit
-    public void heroGenerator(){
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Random rand = new Random();
-                int y_pos = rand.nextInt(370);
-                // A ajouter 
-                Image coinImg = new Image(heroType);
-                double w = coinImg.getWidth();
-                double h = coinImg.getHeight();
-                Coin coin = new Coin(640, y_pos, w, h);
+        public void heroGenerator(){
+            Timer timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    Random rand = new Random();
+                    int y_pos = rand.nextInt(370);
+                    // Hero creation
+                    Hero newHero;
+                    int heroType = (int) Math.random() * 3;
 
-                model.addNewCoin(coin);
+                    if(heroType == 0){
+                        // A corriger les positionnement
+                        newHero = new HandToHandHero(640, y_pos, null); 
+            
+                    }
+                    else if(heroType == 1){
+                        // A corriger
+                        newHero = new FurtiveHero(640, y_pos, null);
+                    }
+                    else{
+                        // A corriger
+                        newHero = new TankHero(640, y_pos, null);
+                    }
+            
+                    Image heroImage = new Image(newHero.getImgUrl());
+                    double w = heroImage.getWidth();
+                    double h = heroImage.getHeight();
+                    newHero.setW(w);
+                    newHero.setH(h);
 
-//                System.out.println("I would be called every 2 seconds");
-            }
-        }, 0, 2000);
+                    model.addHero(newHero);
 
-    }
+                }
+            }, 0, 2000); 
+        }
     public void fireBall(){
         System.out.println("fireee");
         if(fireTimer - lastFire > 1e9) {

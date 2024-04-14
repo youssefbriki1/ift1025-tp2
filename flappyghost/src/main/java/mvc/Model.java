@@ -13,7 +13,7 @@ public class Model {
     private Coin[] coinList = new Coin[100];
     private boolean[] coinEaten = new boolean[100];
     // On stock le Y coord dans la hashmap
-    private HashMap<Double, Hero> heroMap = new HashMap<>(); 
+    private ArrayList<Hero> heroList = new ArrayList<>();
     
     private int coinMade;
 
@@ -101,8 +101,29 @@ public class Model {
     }
 //  To be implemented 
     public void addHero(Hero hero){
-        heroMap.put(hero.getY(), hero);
+        heroList.add(hero);
+        }
+
+    public void removeHero(Hero hero){
+        heroList.remove(hero);
     }
+
+    // public static Hero createHero(){
+    //     int heroType = (int) Math.random() * 3;
+    //     if(heroType == 0){
+    //         // A corriger les positionnement
+    //         return new HandToHandHero(Math.random(), Math.random(), null); 
+
+    //     }
+    //     else if(heroType == 1){
+    //         // A corriger
+    //         return new FurtiveHero(Math.random(), Math.random(), null);
+    //     }
+    //     else{
+    //         // A corriger
+    //         return new TankHero(heroType, heroType, null);
+    //     }
+    // }
 
 // Add how we can add types of Heroes
 

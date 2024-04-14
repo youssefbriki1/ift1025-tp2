@@ -1,15 +1,11 @@
 package mvc.entity;
 
 public class HandToHandHero extends Hero{
-    private double x;
-    private double y;
-    private double w;
     private double vx = 0;
     private double vy = 0;
 
     public HandToHandHero(double x, double y, String imgUrl){
-        this.x = x;
-        this.y = y;
+        super(x, y, imgUrl);
     }
 
 
