@@ -1,9 +1,10 @@
 package mvc.entity;
 
 public class TankHero extends Hero {
+    private long TankHeroTimer = 0;
 
-    public TankHero(double x, double y, String imgUrl){
-        super(x, y, imgUrl);
+    public TankHero(double x, double y, String imgUrl, double vx, double vy){
+        super(x, y, imgUrl, vx, vy);
         }
 
     @Override
@@ -37,6 +38,14 @@ public class TankHero extends Hero {
         int sign = Math.random() < 0.5 ? -1 : 1;
         int randomNumber = (int) (Math.random() * 30 + 1);
         return sign * randomNumber;
+    }
+    
+    public long getTankHeroTimer() {
+        return TankHeroTimer;
+    }
+
+    public void setTankHeroTimer(long tankHeroTimer) {
+        TankHeroTimer = tankHeroTimer;
     }
     
 }

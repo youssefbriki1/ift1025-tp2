@@ -1,11 +1,8 @@
 package mvc.entity;
 
 public class HandToHandHero extends Hero{
-    private double vx = 0;
-    private double vy = 0;
-
-    public HandToHandHero(double x, double y, String imgUrl){
-        super(x, y, imgUrl);
+    public HandToHandHero(double x, double y, String imgUrl, double vx, double vy){
+        super(x, y, imgUrl, vx, vy);
     }
 
 
@@ -23,8 +20,8 @@ public class HandToHandHero extends Hero{
     // Useless method
     @Override
     public void moving() {
-        this.x += vx;
-        this.y += vy; 
+        this.x += this.vx;
+        this.y += this.vy; 
         }
     
 }

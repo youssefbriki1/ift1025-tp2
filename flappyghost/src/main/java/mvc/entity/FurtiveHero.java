@@ -4,8 +4,8 @@ public class FurtiveHero extends Hero{
     // A determiner
     private double vy = 100;
 
-    public FurtiveHero(double x, double y, String imgUrl){
-        super(x, y, imgUrl);
+    public FurtiveHero(double x, double y, String imgUrl, double vx, double vy){
+        super(x, y, imgUrl, vx, vy);
         }
 
     @Override

@@ -123,14 +123,14 @@ public class Controller {
 
                         if (heroType == 0) {
                             // A corriger les positionnement
-                            newHero = new HandToHandHero(640 + Math.random() * 100, y_pos, "ball.png");
+                            newHero = new HandToHandHero(640 + Math.random() * 100, y_pos, "ball.png",0,0);
 
                         } else if (heroType == 1) {
                             // A corriger
-                            newHero = new FurtiveHero(640 + Math.random() * 100, y_pos, "cheems.png");
+                            newHero = new FurtiveHero(640 + Math.random() * 100, y_pos, "cheems.png",100,100);
                         } else {
                             // A corriger
-                            newHero = new TankHero(640 + Math.random() * 100, y_pos, "perry.png");
+                            newHero = new TankHero(640 + Math.random() * 100, y_pos, "perry.png",100,100);
                         }
 
                         Image heroImage = new Image(newHero.getImgUrl());
@@ -193,6 +193,11 @@ public class Controller {
                     limitHero = 0;
                 for(int i = limitHero; i<model.getHeroGenerated(); i++){
                     Hero hero = model.getHeroList().get(i);
+                    if (hero instanceof TankHero){
+                        
+
+                    }
+
                     hero.moving();
                     hero.update(deltaTime, enemy.getVx());
                     boolean ifTouch = enemy.checkHero(model.getHeroList().get(i));

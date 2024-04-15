@@ -8,11 +8,15 @@ public abstract class Hero {
     protected double w;
     protected double h;
     protected boolean isAlive = true;
+    protected double vx;
+    protected double vy;
 
-    public Hero(double x, double y, String imgUrl){
+    public Hero(double x, double y, String imgUrl, double vx, double vy){
         this.x = x;
         this.y = y;
         this.imgUrl = imgUrl;
+        this.vx = vx;
+        this.vy = vy;
     }
     
 
@@ -65,6 +69,18 @@ public abstract class Hero {
     }
     public void setAlive(boolean isAlive) {
         this.isAlive = isAlive;
+    }
+    public double getVx() {
+        return vx;
+    }
+    public void setVx(double vx) {
+        this.vx = vx;
+    }
+    public double getVy() {
+        return vy;
+    }
+    public void setVy(double vy) {
+        this.vy = vy;
     }
 
 }
