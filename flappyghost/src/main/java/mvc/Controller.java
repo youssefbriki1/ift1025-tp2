@@ -32,6 +32,10 @@ public class Controller {
     private long lastFire = 0;
     private long fireTimer;
 
+    private boolean isPlaying = true;
+
+    private double enemyVx, enemyVy, enemyAy;
+
     public Controller(Model m, View v){
         this.model = m;
         this.view = v;
@@ -47,8 +51,36 @@ public class Controller {
                 enemy.jump();
             }
         });
+
+        this.view.getGameButton().setOnAction((action) -> {
+            String txt = this.view.getGameButton().getText();
+            if(txt.equals("Pause")){
+                this.pauseGame();
+            }
+            else{
+                this.resumeGame();
+            }
+        });
     }
 
+    public void pauseGame(){
+        this.view.getGameButton().setText("Resume");
+        enemyAy = this.enemy.getAy();
+        enemyVx = this.enemy.getVx();
+        enemyVy = this.enemy.getVy();
+        this.enemy.setAy(0);
+        this.enemy.setVx(0);
+        this.enemy.setVy(0);
+        isPlaying = false;
+    }
+
+    public void resumeGame(){
+        this.view.getGameButton().setText("Pause");
+        this.enemy.setAy(enemyAy);
+        this.enemy.setVx(enemyVx);
+        this.enemy.setVy(enemyVy);
+        isPlaying = true;
+    }
 
 
     public void coinGeneration(){
@@ -56,14 +88,18 @@ public class Controller {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Random rand = new Random();
-                int y_pos = rand.nextInt(370);
-                Image coinImg = new Image("coin.png");
-                double w = coinImg.getWidth();
-                double h = coinImg.getHeight();
-                Coin coin = new Coin(640, y_pos, w, h);
+                if(isPlaying){
+                    Random rand = new Random();
+                    int y_pos = rand.nextInt(370);
+                    Image coinImg = new Image("coin.png");
+                    double w = coinImg.getWidth();
+                    double h = coinImg.getHeight();
+                    Coin coin = new Coin(640, y_pos, w, h);
 
-                model.addNewCoin(coin);
+
+                    model.addNewCoin(coin);
+                }
+
 
 //                System.out.println("I would be called every 2 seconds");
             }
@@ -77,34 +113,34 @@ public class Controller {
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    Random rand = new Random();
-                    int y_pos = rand.nextInt(370);
-                    // Hero creation
-                    Hero newHero;
-                    double heroType = Math.random() * 3;
-                    System.out.println("Hero type: " + heroType);
+                    if(isPlaying) {
+                        Random rand = new Random();
+                        int y_pos = rand.nextInt(370);
+                        // Hero creation
+                        Hero newHero;
+                        int heroType = (int) (Math.random() * 3);
+                        System.out.println("Hero type: " + heroType);
 
-                    if((int)heroType == 0){
-                        // A corriger les positionnement
-                        newHero = new HandToHandHero(640+Math.random() * 100, y_pos, "ball.png"); 
-            
-                    }
-                    else if((int)heroType == 1){
-                        // A corriger
-                        newHero = new FurtiveHero(640+ Math.random() * 100, y_pos, "cheems.png");
-                    }
-                    else{
-                        // A corriger
-                        newHero = new TankHero(640+Math.random() * 100, y_pos, "perry.png");
-                    }
-            
-                    Image heroImage = new Image(newHero.getImgUrl());
-                    double w = heroImage.getWidth();
-                    double h = heroImage.getHeight();
-                    newHero.setW(w);
-                    newHero.setH(h);
+                        if (heroType == 0) {
+                            // A corriger les positionnement
+                            newHero = new HandToHandHero(640 + Math.random() * 100, y_pos, "ball.png");
 
-                    model.addHero(newHero);
+                        } else if (heroType == 1) {
+                            // A corriger
+                            newHero = new FurtiveHero(640 + Math.random() * 100, y_pos, "cheems.png");
+                        } else {
+                            // A corriger
+                            newHero = new TankHero(640 + Math.random() * 100, y_pos, "perry.png");
+                        }
+
+                        Image heroImage = new Image(newHero.getImgUrl());
+                        double w = heroImage.getWidth();
+                        double h = heroImage.getHeight();
+                        newHero.setW(w);
+                        newHero.setH(h);
+
+                        model.addHero(newHero);
+                    }
 
                 }
             }, 0, 2000); 
@@ -219,6 +255,12 @@ public class Controller {
             }
         };
         timer.start();
+       /* if(isPlaying) {
+            timer.start();
+        }
+        else{
+            timer.stop();
+        }*/
     }
 
 
@@ -226,7 +268,7 @@ public class Controller {
     public void startGame(){
         //showBackground();
         coinGeneration();
-        //heroGenerator();
+        heroGenerator();
         gameAnimation();
     }
 

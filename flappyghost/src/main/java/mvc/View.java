@@ -1,6 +1,7 @@
 package mvc;
 
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
@@ -20,12 +21,13 @@ public class View extends BorderPane {
     private Pane root = new Pane();
     private Canvas canvas ;
     private GraphicsContext context;
-    private HBox hbox = new HBox(0);
-    private Button resume = new Button("Resume");
+    private HBox hbox = new HBox(40);
     private Separator sep1 = new Separator();
     private Text life = new Text("Life: 100"); // 100 is the default life - to edit
     private Separator sep2 = new Separator();
     private Text piece = new Text("Piece: 0");
+
+    private Button gameButton = new Button("Pause");
 
     public View(int w, int h){
 
@@ -42,13 +44,18 @@ public class View extends BorderPane {
         sep1.setOrientation(Orientation.VERTICAL);
         sep2.setOrientation(Orientation.VERTICAL);
 
-        //hbox.getChildren().add(resume);
+        gameButton.setFocusTraversable(false);
+/*
+        hbox.setPadding(new Insets(100, 10,10, 10));
+*/
+
+        hbox.getChildren().add(gameButton);
         hbox.getChildren().add(sep1);
         hbox.getChildren().add(life);
         hbox.getChildren().add(sep2);
         hbox.getChildren().add(piece);
 
-        hbox.setAlignment( Pos.CENTER );
+        hbox.setAlignment( Pos.TOP_CENTER);
 
         this.setBottom(hbox);
     }
@@ -78,6 +85,7 @@ public class View extends BorderPane {
         this.piece.setText(text);
     }
 
-
-
+    public Button getGameButton() {
+        return gameButton;
+    }
 }
