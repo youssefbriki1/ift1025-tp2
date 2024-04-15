@@ -40,15 +40,17 @@ public class FurtiveHero extends Hero{
                 goingUp = true;
             }
 
-            if (this.y + this.vy > 0 && this.y + this.vy < 320 ){
+            if (this.y  >= 0 && this.y <= 320 ){
                 this.y += signe * this.vy;
     
             }
-            else if (this.y + this.vy < 0){
-                this.y = 0;
+            else if (this.y <= 0){
+                goingUp = true;
+                this.y = 1;
             }
             else{
-                this.y = 320;
+                goingUp = false;
+                this.y = 319;
             }
     
         }
