@@ -1,7 +1,8 @@
 package mvc.entity;
 
 public class TankHero extends Hero {
-    private long TankHeroTimer = 0;
+    private long TankHeroMove = 0;
+    private long TankHeroLastMove = 0;
 
     public TankHero(double x, double y, String imgUrl, double vx, double vy){
         super(x, y, imgUrl, vx, vy);
@@ -20,6 +21,8 @@ public class TankHero extends Hero {
     @Override
     public void moving() {
         // For x
+        if (TankHeroMove - TankHeroLastMove > 1e9/2) {
+            
         this.x = this.x + randomNumGenerator();
         double newY = this.y + randomNumGenerator();
         if (newY > 0 && newY < 320){
@@ -31,7 +34,9 @@ public class TankHero extends Hero {
         else{
             this.y = 320;
         }
+        TankHeroLastMove = TankHeroMove;
     }
+}
 
     // Method to generate a random number in this particular case
     private double randomNumGenerator(){
@@ -39,13 +44,22 @@ public class TankHero extends Hero {
         int randomNumber = (int) (Math.random() * 30 + 1);
         return sign * randomNumber;
     }
-    
-    public long getTankHeroTimer() {
-        return TankHeroTimer;
+
+    public void setTankHeroMove(long TankHeroMove) {
+        this.TankHeroMove = TankHeroMove;
     }
 
-    public void setTankHeroTimer(long tankHeroTimer) {
-        TankHeroTimer = tankHeroTimer;
+    public void setTankHeroLastMove(long TankHeroLastMove) {
+        this.TankHeroLastMove = TankHeroLastMove;
     }
+
+    public long getTankHeroMove() {
+        return TankHeroMove;
+    }
+
+    public long getTankHeroLastMove() {
+        return TankHeroLastMove;
+    }
+
     
 }

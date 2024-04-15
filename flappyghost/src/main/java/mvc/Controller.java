@@ -127,7 +127,8 @@ public class Controller {
 
                         } else if (heroType == 1) {
                             // A corriger
-                            newHero = new FurtiveHero(640 + Math.random() * 100, y_pos, "cheems.png",100,100);
+                            System.out.println(y_pos);
+                            newHero = new FurtiveHero(640 + Math.random() * 100, y_pos, "cheems.png",1,1);
                         } else {
                             // A corriger
                             newHero = new TankHero(640 + Math.random() * 100, y_pos, "perry.png",100,100);
@@ -193,20 +194,27 @@ public class Controller {
                     limitHero = 0;
                 for(int i = limitHero; i<model.getHeroGenerated(); i++){
                     Hero hero = model.getHeroList().get(i);
-                    if (hero instanceof TankHero){
+                    if (hero instanceof TankHero && isPlaying){
+                        TankHero heroTank = (TankHero) hero;
+                        heroTank.moving();
+                        heroTank.setTankHeroMove(now);
                         
 
                     }
 
-                    hero.moving();
+                    else if (isPlaying){
+                        hero.moving();
+                    }
                     hero.update(deltaTime, enemy.getVx());
                     boolean ifTouch = enemy.checkHero(model.getHeroList().get(i));
                     if (hero.isAlive() && ifTouch){
                         hero.touched(enemy);
                         System.out.println("Touched");
                     }
+                
                     context.drawImage(new Image(model.getHeroList().get(i).getImgUrl()), model.getHeroList().get(i).getX(), model.getHeroList().get(i).getY());
                 }
+            
 
 
 

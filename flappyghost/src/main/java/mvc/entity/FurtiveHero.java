@@ -2,11 +2,14 @@ package mvc.entity;
 
 public class FurtiveHero extends Hero{
     // A determiner
-    private double vy = 100;
-
+    private boolean goingUp = true;
+    private double initialY;
     public FurtiveHero(double x, double y, String imgUrl, double vx, double vy){
         super(x, y, imgUrl, vx, vy);
+        this.initialY = y;
+        this.goingUp = true;
         }
+
 
     @Override
     public void touched(Enemy enemy) {
@@ -27,14 +30,29 @@ public class FurtiveHero extends Hero{
     @Override
     public void moving() {
         // Condition to move the hero to not go over or under the screen
-        if (this.y + this.vy > 0 && this.y + this.vy < 320){
-            this.y += vy;
-        }
-        else if (this.y + this.vy < 0){
-            this.y = 0;
-        }
-        else{
-            this.y = 320;
+    
+            int signe = goingUp ? 1 : -1;
+
+            if (this.y > this.initialY + 50){
+                goingUp = false;
+            }
+            else if (this.y < this.initialY - 50){
+                goingUp = true;
+            }
+
+            if (this.y + this.vy > 0 && this.y + this.vy < 320 ){
+                this.y += signe * this.vy;
+    
+            }
+            else if (this.y + this.vy < 0){
+                this.y = 0;
+            }
+            else{
+                this.y = 320;
+            }
+    
         }
     
-    }}
+    }
+    
+
