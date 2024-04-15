@@ -1,6 +1,8 @@
 package mvc.entity;
 
 
+import static java.lang.Math.sqrt;
+
 public class Enemy {
 
     private String img_url;
@@ -27,7 +29,6 @@ public class Enemy {
 
     public void jump(){
         vy = -300;
-        System.out.println("ay " +  ay);
     }
 
     //dt means delta t
@@ -64,7 +65,22 @@ public class Enemy {
         this.pieces += 1;
    }
 
+   public boolean checkCoin2(Coin coin){
+        double x1 = x + w/2;
+        double y1 = y + h/2;
+        double r1 = 0.5 * sqrt(w*w + h * h);
 
+        double coin_w = coin.getW();
+        double coin_h = coin.getH();
+
+        double x2 = coin.getX() + coin_w/2;
+        double y2 = coin.getY() + coin_h/2;
+        double r2 = 0.5 * sqrt(coin_w * coin_w + coin_h * coin_h);
+
+        double dist = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+        return dist <= r1 + r2;
+   }
    public boolean checkCoin(Coin coin){
         boolean fl = true;
         if(
@@ -186,7 +202,8 @@ public class Enemy {
         this.life = life;
     }
 
-    public void fireBall(){
-
+    public void increaseSpeed(){
+        this.ay += 15;
+        this.vx += 10;
     }
 }

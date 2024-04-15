@@ -177,13 +177,18 @@ public class Controller {
                     limit = 0;
                 for(int i = limit; i<model.getCoinMade(); i++){
                     model.getCoinList()[i].update(deltaTime, enemy.getVx());
-                    boolean ifTouch = enemy.checkCoin(model.getCoinList()[i]);
+                    boolean ifTouch = enemy.checkCoin2(model.getCoinList()[i]);
+                  /*  if(ifTouch){
+                        model.getCoinList()[i].setY(700);
+                    }
+                    context.drawImage(coinImg,  model.getCoinList()[i].getX(),  model.getCoinList()[i].getY());*/
+
                     if(!model.getCoinEaten()[i]){
                         if(ifTouch){
                             model.markCoinAsEaten(i);
                             int coinCount = model.eatenCoinCount();
                             view.updatePiece(coinCount);
-
+                            enemy.increaseSpeed();
                         }
                         context.drawImage(coinImg,  model.getCoinList()[i].getX(),  model.getCoinList()[i].getY());
 
@@ -221,7 +226,7 @@ public class Controller {
     public void startGame(){
         //showBackground();
         coinGeneration();
-        heroGenerator();
+        //heroGenerator();
         gameAnimation();
     }
 
