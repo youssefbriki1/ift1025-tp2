@@ -85,6 +85,10 @@ public class View extends BorderPane {
         this.piece.setText(text);
     }
 
+    public void updateLife(int life){
+        String text = "Life: " + life;
+        this.life.setText(text);
+    }
     public Button getGameButton() {
         return gameButton;
     }

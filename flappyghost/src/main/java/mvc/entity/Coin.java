@@ -7,6 +7,8 @@ public class Coin {
     private double w;
     private double h;
 
+    private boolean isEaten;
+
 
 
     public Coin(double x, double y, double w, double h){
@@ -14,6 +16,7 @@ public class Coin {
         this.y = y;
         this.w = w;
         this.h = h;
+        this.isEaten = false;
     }
 
     public void update(double dt, double vx ){
@@ -44,6 +47,11 @@ public class Coin {
         return h;
     }
 
+    public boolean isEaten() {
+        return isEaten;
+    }
 
-
+    public void setEaten(boolean eatean) {
+        isEaten = eatean;
+    }
 }

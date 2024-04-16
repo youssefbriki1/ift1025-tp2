@@ -13,6 +13,7 @@ public class FurtiveHero extends Hero{
 
     @Override
     public void touched(Enemy enemy) {
+        System.out.println("FURTIVE TOUCHED");
         int enemyPieces = enemy.getPieces();
         if (enemyPieces > 10){
             enemy.setPieces(enemyPieces - 10);
@@ -26,7 +27,6 @@ public class FurtiveHero extends Hero{
     public void isKilled(Enemy enemy) {
         enemy.setPieces(enemy.getPieces() + 8);
         }
-
     @Override
     public void moving() {
         // Condition to move the hero to not go over or under the screen
@@ -40,9 +40,8 @@ public class FurtiveHero extends Hero{
                 goingUp = true;
             }
 
-            if (this.y  >= 0 && this.y <= 320 ){
+            if (this.y  >= 0 && this.y <= 400 ){
                 this.y += signe * this.vy;
-    
             }
             else if (this.y <= 0){
                 goingUp = true;

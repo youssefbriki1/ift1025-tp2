@@ -128,7 +128,7 @@ public class Controller {
                         } else if (heroType == 1) {
                             // A corriger
                             System.out.println(y_pos);
-                            newHero = new FurtiveHero(640 + Math.random() * 100, y_pos, "cheems.png",1,1);
+                            newHero = new FurtiveHero(640 + Math.random() * 100, y_pos, "pessi.png",1,1);
                         } else {
                             // A corriger
                             newHero = new TankHero(640 + Math.random() * 100, y_pos, "perry.png",100,100);
@@ -198,14 +198,15 @@ public class Controller {
                         TankHero heroTank = (TankHero) hero;
                         heroTank.moving();
                         heroTank.setTankHeroMove(now);
-                        
-
                     }
-
                     else if (isPlaying){
                         hero.moving();
                     }
+
+
                     hero.update(deltaTime, enemy.getVx());
+
+
                     boolean ifTouch = enemy.checkHero(model.getHeroList().get(i));
                     if (hero.isAlive() && ifTouch){
                         hero.touched(enemy);
@@ -225,6 +226,7 @@ public class Controller {
                 if(limit < 0)
                     limit = 0;
                 for(int i = limit; i<model.getCoinMade(); i++){
+                    Coin theCoin =  model.getCoinList()[i];
                     model.getCoinList()[i].update(deltaTime, enemy.getVx());
                     boolean ifTouch = enemy.checkCoin2(model.getCoinList()[i]);
                   /*  if(ifTouch){
@@ -232,11 +234,11 @@ public class Controller {
                     }
                     context.drawImage(coinImg,  model.getCoinList()[i].getX(),  model.getCoinList()[i].getY());*/
 
-                    if(!model.getCoinEaten()[i]){
+                    //if(!model.getCoinEaten()[i]){
+                    if(!theCoin.isEaten()){
                         if(ifTouch){
                             model.markCoinAsEaten(i);
-                            int coinCount = model.eatenCoinCount();
-                            view.updatePiece(coinCount);
+                            model.getCoinList()[i].setEaten(true);
                             enemy.increaseSpeed();
                         }
                         context.drawImage(coinImg,  model.getCoinList()[i].getX(),  model.getCoinList()[i].getY());
@@ -265,15 +267,14 @@ public class Controller {
 
                 fireTimer = now;
 
+                int coinCount = enemy.getPieces();
+                view.updatePiece(coinCount);
+                int life = enemy.getLife();
+                view.updateLife(life);
+
             }
         };
         timer.start();
-       /* if(isPlaying) {
-            timer.start();
-        }
-        else{
-            timer.stop();
-        }*/
     }
 
 
