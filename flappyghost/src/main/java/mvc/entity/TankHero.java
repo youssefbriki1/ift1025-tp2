@@ -4,8 +4,8 @@ public class TankHero extends Hero {
     private long TankHeroMove = 0;
     private long TankHeroLastMove = 0;
 
-    public TankHero(double x, double y, String imgUrl, double vx, double vy){
-        super(x, y, imgUrl, vx, vy);
+    public TankHero(double x, double y, String imgUrl, double vx, double vy, double w){
+        super(x, y, imgUrl, vx, vy, w);
         }
 
     @Override
@@ -25,14 +25,14 @@ public class TankHero extends Hero {
             
         this.x = this.x + randomNumGenerator();
         double newY = this.y + randomNumGenerator();
-        if (newY > 0 && newY < 320){
+        if (newY > 0 && newY < 280){
             this.y = newY;
         }
         else if (newY < 0){
             this.y = 0;
         }
         else{
-            this.y = 320;
+            this.y = 280;
         }
         TankHeroLastMove = TankHeroMove;
     }

@@ -1,8 +1,8 @@
 package mvc.entity;
 
 public class HandToHandHero extends Hero{
-    public HandToHandHero(double x, double y, String imgUrl, double vx, double vy){
-        super(x, y, imgUrl, vx, vy);
+    public HandToHandHero(double x, double y, String imgUrl, double vx, double vy, double w){
+        super(x, y, imgUrl, vx, vy, w);
     }
 
 

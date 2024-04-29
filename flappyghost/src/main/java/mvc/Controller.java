@@ -3,7 +3,9 @@ package mvc;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 import mvc.entity.Coin;
 import mvc.entity.Enemy;
 import mvc.entity.GameBackground;
@@ -24,6 +26,7 @@ public class Controller {
     private Enemy enemy;
 
     private GraphicsContext context;
+    private Pane root;
 
     private GameBackground background;
 
@@ -42,6 +45,7 @@ public class Controller {
         this.enemy = m.getEnemy();
         this.background = m.getBackground();
         this.context = v.getContext();
+        this.root = v.getRoot();
         WIDTH = 640;
         HEIGHT = 440;
 
@@ -99,15 +103,11 @@ public class Controller {
 
                     model.addNewCoin(coin);
                 }
-
-
-//                System.out.println("I would be called every 2 seconds");
             }
         }, 0, 2000);
 
     }
 
-// To edit
         public void heroGenerator(){
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {
@@ -115,32 +115,29 @@ public class Controller {
                 public void run() {
                     if(isPlaying) {
                         Random rand = new Random();
-                        int y_pos = rand.nextInt(370);
+                        int y_pos = rand.nextInt(300);
                         // Hero creation
                         Hero newHero;
                         int heroType = (int) (Math.random() * 3);
                         System.out.println("Hero type: " + heroType);
 
+                        double w = Math.random() * 40 + 40;
+
                         if (heroType == 0) {
                             // A corriger les positionnement
-                            newHero = new HandToHandHero(640 + Math.random() * 100, y_pos, "ball.png",0,0);
+                            newHero = new HandToHandHero(640 + Math.random() * 100, y_pos, "ball.png",0,0, w);
 
                         } else if (heroType == 1) {
                             // A corriger
                             System.out.println(y_pos);
-                            newHero = new FurtiveHero(640 + Math.random() * 100, y_pos, "pessi.png",1,1);
+                            newHero = new FurtiveHero(640 + Math.random() * 100, y_pos, "pessi.png",1,1, w);
                         } else {
                             // A corriger
-                            newHero = new TankHero(640 + Math.random() * 100, y_pos, "perry.png",100,100);
+                            newHero = new TankHero(640 + Math.random() * 100, y_pos, "perry.png",100,100, w);
                         }
 
-                        Image heroImage = new Image(newHero.getImgUrl());
-                        double w = heroImage.getWidth();
-                        double h = heroImage.getHeight();
-                        newHero.setW(w);
-                        newHero.setH(h);
-
                         model.addHero(newHero);
+
                     }
 
                 }
@@ -160,6 +157,12 @@ public class Controller {
             System.out.println("Not enough time");
         }
     }
+
+    public void gameOver(){
+        pauseGame();
+        view.setGameOver();
+    }
+
     public void gameAnimation(){
         Image enemyImg = new Image(enemy.getImg_url());
         Image backgroundImg = new Image(this.background.getImg_url());
@@ -170,7 +173,6 @@ public class Controller {
         AnimationTimer timer = new AnimationTimer() {
             private long lastTime = 0;
 
-
             @Override
             public void handle(long now) {
                 if (lastTime == 0) {
@@ -180,7 +182,6 @@ public class Controller {
 
                 double deltaTime = (now - lastTime) * 1e-9;
                 context.clearRect(0, 0, WIDTH, HEIGHT);
-
 
 
                 //background movement
@@ -207,18 +208,25 @@ public class Controller {
                     hero.update(deltaTime, enemy.getVx());
 
 
-                    boolean ifTouch = enemy.checkHero(model.getHeroList().get(i));
-                    if (hero.isAlive() && ifTouch){
-                        hero.touched(enemy);
-                        System.out.println("Touched");
+                    if(!hero.isTouched()){
+                        boolean ifTouch = enemy.checkHero(hero);
+                        if (hero.isAlive() && ifTouch){
+                            hero.touched(enemy);
+                            System.out.println("Touched");
+                            hero.setTouched();
+                        }
                     }
-                
-                    context.drawImage(new Image(model.getHeroList().get(i).getImgUrl()), model.getHeroList().get(i).getX(), model.getHeroList().get(i).getY());
+
+                    hero.moveHero(hero.getX(), hero.getY());
+
+                    if(!hero.isAdded()){
+                        ImageView heroView = hero.getHeroView();
+                        root.getChildren().add(heroView);
+                        hero.setAdded();
+                    }
+
+
                 }
-            
-
-
-
 
                 //coin movement
 
@@ -227,21 +235,14 @@ public class Controller {
                     limit = 0;
                 for(int i = limit; i<model.getCoinMade(); i++){
                     Coin theCoin =  model.getCoinList()[i];
-                    model.getCoinList()[i].update(deltaTime, enemy.getVx());
-                    boolean ifTouch = enemy.checkCoin2(model.getCoinList()[i]);
-                  /*  if(ifTouch){
-                        model.getCoinList()[i].setY(700);
-                    }
-                    context.drawImage(coinImg,  model.getCoinList()[i].getX(),  model.getCoinList()[i].getY());*/
-
-                    //if(!model.getCoinEaten()[i]){
+                    theCoin.update(deltaTime, enemy.getVx());
+                    boolean ifTouch = enemy.checkCoin2(theCoin);
                     if(!theCoin.isEaten()){
                         if(ifTouch){
-                            model.markCoinAsEaten(i);
-                            model.getCoinList()[i].setEaten(true);
+                            theCoin.setEaten();
                             enemy.increaseSpeed();
                         }
-                        context.drawImage(coinImg,  model.getCoinList()[i].getX(),  model.getCoinList()[i].getY());
+                        context.drawImage(coinImg,  theCoin.getX(),  theCoin.getY());
 
                     }
                 }
@@ -262,15 +263,17 @@ public class Controller {
                     context.fillOval(ball.getX() , ball.getY(), 10, 10);
                 }
 
-
                 lastTime = now;
-
                 fireTimer = now;
 
                 int coinCount = enemy.getPieces();
                 view.updatePiece(coinCount);
                 int life = enemy.getLife();
                 view.updateLife(life);
+                if(life == 0){
+                    gameOver();
+                    stop();
+                }
 
             }
         };
@@ -280,7 +283,6 @@ public class Controller {
 
 
     public void startGame(){
-        //showBackground();
         coinGeneration();
         heroGenerator();
         gameAnimation();

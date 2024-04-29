@@ -11,7 +11,10 @@ import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class View extends BorderPane {
@@ -26,6 +29,8 @@ public class View extends BorderPane {
     private Text life = new Text("Life: 100"); // 100 is the default life - to edit
     private Separator sep2 = new Separator();
     private Text piece = new Text("Piece: 0");
+
+    private Text gameOver = new Text("Game Over");
 
     private Button gameButton = new Button("Pause");
 
@@ -45,9 +50,6 @@ public class View extends BorderPane {
         sep2.setOrientation(Orientation.VERTICAL);
 
         gameButton.setFocusTraversable(false);
-/*
-        hbox.setPadding(new Insets(100, 10,10, 10));
-*/
 
         hbox.getChildren().add(gameButton);
         hbox.getChildren().add(sep1);
@@ -80,6 +82,10 @@ public class View extends BorderPane {
         return this.context;
     }
 
+    public Pane getRoot(){
+        return this.root;
+    }
+
     public void updatePiece(int pieces){
         String text = "Piece: " + pieces;
         this.piece.setText(text);
@@ -91,5 +97,11 @@ public class View extends BorderPane {
     }
     public Button getGameButton() {
         return gameButton;
+    }
+
+    public void setGameOver(){
+        Image gameOver = new Image("gameover.png");
+        context.drawImage(gameOver, 230, 100);
+       //context.fillText("Game Over", 300, 200);
     }
 }

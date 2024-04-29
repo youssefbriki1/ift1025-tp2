@@ -16,6 +16,7 @@ public class Enemy {
     private int life = 100;
     private int pieces;
 
+
     public Enemy(double x, double y, double vx, double vy, double ax, double ay, String img_url){
         this.x = x;
         this.y = y;

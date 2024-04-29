@@ -51,7 +51,7 @@ public class Coin {
         return isEaten;
     }
 
-    public void setEaten(boolean eatean) {
-        isEaten = eatean;
+    public void setEaten() {
+        isEaten = true;
     }
 }

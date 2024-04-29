@@ -4,8 +4,8 @@ public class FurtiveHero extends Hero{
     // A determiner
     private boolean goingUp = true;
     private double initialY;
-    public FurtiveHero(double x, double y, String imgUrl, double vx, double vy){
-        super(x, y, imgUrl, vx, vy);
+    public FurtiveHero(double x, double y, String imgUrl, double vx, double vy, double w){
+        super(x, y, imgUrl, vx, vy, w);
         this.initialY = y;
         this.goingUp = true;
         }
