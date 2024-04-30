@@ -210,10 +210,11 @@ public class Controller {
 
                     if(!hero.isTouched()){
                         boolean ifTouch = enemy.checkHero(hero);
-                        if (hero.isAlive() && ifTouch){
+                        if (hero.isAlive() && ifTouch && !hero.isDisabled()){
                             hero.touched(enemy);
                             System.out.println("Touched");
                             hero.setTouched();
+                            hero.setIsDisabled(true);
                         }
                     }
 

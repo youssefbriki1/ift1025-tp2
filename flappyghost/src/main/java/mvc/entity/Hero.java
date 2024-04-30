@@ -20,6 +20,7 @@ public abstract class Hero {
     protected boolean addedToView;
 
     private boolean isTouched;
+    private boolean isDisabled;
 
 
 
@@ -33,6 +34,7 @@ public abstract class Hero {
         this.isTouched = false;
         this.w = w;
         this.h = w;
+        this.isDisabled = false;
 
         this.heroImage = new Image(imgUrl);
         this.heroView = new ImageView();
@@ -132,4 +134,13 @@ public abstract class Hero {
     public void setTouched(){
         this.isTouched = true;
     }
+
+    public void setIsDisabled(boolean state){
+        this.isDisabled = state;
+    }
+
+    public boolean isDisabled(){
+        return this.isDisabled;
+    }
+
 }

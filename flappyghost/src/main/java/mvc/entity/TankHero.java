@@ -10,7 +10,7 @@ public class TankHero extends Hero {
 
     @Override
     public void touched(Enemy enemy) {
-        enemy.setLife(enemy.getLife() / 2);
+        enemy.setLife(enemy.getLife() - 50);
         }
 
     @Override
