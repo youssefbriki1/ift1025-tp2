@@ -5,6 +5,7 @@ import mvc.entity.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Model {
     private Enemy enemy;
@@ -12,7 +13,7 @@ public class Model {
 
     private Coin[] coinList = new Coin[100];
     private boolean[] coinEaten = new boolean[100];
-    private ArrayList<Hero> heroList = new ArrayList<>();
+    private List<Hero> heroList = new CopyOnWriteArrayList<>();
     private int heroGenerated;
     
     private int coinMade;
@@ -115,7 +116,7 @@ public class Model {
         return heroGenerated;
     }
 
-    public ArrayList<Hero> getHeroList(){
+    public List<Hero> getHeroList(){
         return heroList;
     }
     public void killHero(Hero Hero){
