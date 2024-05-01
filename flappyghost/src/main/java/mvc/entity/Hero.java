@@ -21,6 +21,7 @@ public abstract class Hero {
 
     private boolean isTouched;
     private boolean isDisabled;
+    private int id;
 
 
 
@@ -44,6 +45,7 @@ public abstract class Hero {
         heroView.setFitWidth(w);
         heroView.setPreserveRatio(true);
         System.out.println("hero width " + this.w + "hero height " + this.h);
+        this.id = 0;
     }
     
 
@@ -141,6 +143,10 @@ public abstract class Hero {
 
     public boolean isDisabled(){
         return this.isDisabled;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
 }

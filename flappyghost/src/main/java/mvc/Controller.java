@@ -193,8 +193,7 @@ public class Controller {
                 int limitHero = model.getHeroGenerated() - 10;
                 if(limitHero < 0)
                     limitHero = 0;
-                for(int i = limitHero; i<model.getHeroGenerated(); i++){
-                    Hero hero = model.getHeroList().get(i);
+                for(Hero hero : model.getHeroList()){
                     if (hero instanceof TankHero && isPlaying){
                         TankHero heroTank = (TankHero) hero;
                         heroTank.moving();
@@ -205,18 +204,17 @@ public class Controller {
                     }
 
 
-                    hero.update(deltaTime, enemy.getVx());
+                hero.update(deltaTime, enemy.getVx());
 
 
-                    if(!hero.isTouched()){
-                        boolean ifTouch = enemy.checkHero(hero);
-                        if (hero.isAlive() && ifTouch && !hero.isDisabled()){
-                            hero.touched(enemy);
-                            System.out.println("Touched");
-                            hero.setTouched();
-                            hero.setIsDisabled(true);
-                        }
+                    boolean ifTouch = enemy.checkHero(hero);
+                    if (hero.isAlive() && ifTouch && !hero.isDisabled()){
+                        hero.touched(enemy);
+                        System.out.println("Touched");
+                        hero.setTouched();
+                        hero.setIsDisabled(true);
                     }
+                    
 
                     hero.moveHero(hero.getX(), hero.getY());
 
@@ -262,8 +260,16 @@ public class Controller {
                     model.getPistolBallList()[i].update(deltaTime, enemy.getVx() * 10);
                     PistolBall ball = model.getPistolBallList()[i];
                     context.fillOval(ball.getX() , ball.getY(), 10, 10);
-                }
+                    for (Hero hero : model.getHeroList()){
+                        if (ball.getY() > hero.getY() && ball.getY() > hero.getY() - hero.getW() && ball.getX() <= hero.getX()){
+                            hero.isKilled(enemy);
+                            System.out.println("Killed");
+                            model.killHero(hero);
+                            root.getChildren().remove(hero.getHeroView());
+                        }
+                    }
 
+                }
                 lastTime = now;
                 fireTimer = now;
 

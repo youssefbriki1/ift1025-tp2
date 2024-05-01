@@ -12,7 +12,6 @@ public class Model {
 
     private Coin[] coinList = new Coin[100];
     private boolean[] coinEaten = new boolean[100];
-    // On stock le Y coord dans la hashmap
     private ArrayList<Hero> heroList = new ArrayList<>();
     private int heroGenerated;
     
@@ -104,6 +103,7 @@ public class Model {
 //  To be implemented 
     public void addHero(Hero hero){
         heroGenerated++;
+        hero.setId(heroGenerated);
         heroList.add(hero);
         }
 
@@ -117,6 +117,10 @@ public class Model {
 
     public ArrayList<Hero> getHeroList(){
         return heroList;
+    }
+    public void killHero(Hero Hero){
+        heroList.remove(Hero);
+
     }
 
     // public static Hero createHero(){

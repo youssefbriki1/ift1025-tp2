@@ -1,6 +1,7 @@
 package mvc.entity;
 public class PistolBall {
-    double x, y;
+    private double x, y;
+    private boolean hasKilled = false;
 
 
 
@@ -20,5 +21,12 @@ public class PistolBall {
 
     public double getY() {
         return y;
+    }
+    public boolean isHasKilled() {
+        return hasKilled;
+    }
+
+    public void setHasKilled(boolean hasKilled) {
+        this.hasKilled = hasKilled;
     }
 }
