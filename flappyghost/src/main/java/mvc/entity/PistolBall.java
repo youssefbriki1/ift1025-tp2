@@ -22,7 +22,7 @@ public class PistolBall {
     public double getY() {
         return y;
     }
-    public boolean isHasKilled() {
+    public boolean getHasKilled() {
         return hasKilled;
     }
 

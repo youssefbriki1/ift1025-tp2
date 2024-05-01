@@ -257,19 +257,24 @@ public class Controller {
 
                 Image ballImg = new Image("ball.png");
                 for(int i = limitPistol; i< model.getPistolNumber(); i++){
+                    if (!model.getPistolBallList()[i].getHasKilled()){
                     model.getPistolBallList()[i].update(deltaTime, enemy.getVx() * 10);
                     PistolBall ball = model.getPistolBallList()[i];
                     context.fillOval(ball.getX() , ball.getY(), 10, 10);
                     for (Hero hero : model.getHeroList()){
-                        if (ball.getY() > hero.getY() && ball.getY() > hero.getY() - hero.getW() && ball.getX() <= hero.getX()){
+                        if (ball.getY() > hero.getY() && ball.getY() > hero.getY() - hero.getW() && ball.getX() <= hero.getX() && !ball.getHasKilled()){
                             hero.isKilled(enemy);
                             System.out.println("Killed");
                             model.killHero(hero);
                             root.getChildren().remove(hero.getHeroView());
+                            ball.setHasKilled(true);
                         }
                     }
+                    ball.setHasKilled(true);
+
 
                 }
+            }
                 lastTime = now;
                 fireTimer = now;
 
