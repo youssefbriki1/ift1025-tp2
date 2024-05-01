@@ -150,7 +150,6 @@ public class Controller {
             double y = enemy.getY() + enemy.getH() / 2;
             PistolBall theBall = new PistolBall(x, y);
             model.addNewPistolBall(theBall);
-            model.printPistolList();
             lastFire = fireTimer;
         }
         else{
@@ -189,10 +188,7 @@ public class Controller {
                 context.drawImage(backgroundImg, background.getX(), 0);
                 context.drawImage(backgroundImg, background.getX() + 640, 0);
 
-                // Hero movement
-                int limitHero = model.getHeroGenerated() - 10;
-                if(limitHero < 0)
-                    limitHero = 0;
+
                 for(Hero hero : model.getHeroList()){
                     if (hero instanceof TankHero && isPlaying){
                         TankHero heroTank = (TankHero) hero;
@@ -223,26 +219,23 @@ public class Controller {
                         root.getChildren().add(heroView);
                         hero.setAdded();
                     }
-
-
                 }
 
                 //coin movement
 
-                int limit = model.getCoinMade() - 10;
-                if(limit < 0)
-                    limit = 0;
-                for(int i = limit; i<model.getCoinMade(); i++){
-                    Coin theCoin =  model.getCoinList()[i];
+                for(Coin theCoin: model.getCoinList()){
                     theCoin.update(deltaTime, enemy.getVx());
-                    boolean ifTouch = enemy.checkCoin2(theCoin);
-                    if(!theCoin.isEaten()){
-                        if(ifTouch){
-                            theCoin.setEaten();
-                            enemy.increaseSpeed();
-                        }
+                    boolean ifTouch = enemy.checkCoin(theCoin);
+                    if(ifTouch){
+                        enemy.increaseSpeed();
+                        model.removeCoin(theCoin);
+                        enemy.increaseCoin();
+                    }
+                    else if(theCoin.getX() < -60){
+                        model.removeCoin(theCoin);
+                    }
+                    else {
                         context.drawImage(coinImg,  theCoin.getX(),  theCoin.getY());
-
                     }
                 }
 
@@ -250,16 +243,10 @@ public class Controller {
                 enemy.update(deltaTime);
                 context.drawImage(enemyImg, enemy.getX() - enemy.getW() / 2, enemy.getY() - enemy.getH() / 2);
 
-                //update pistolBall
-                int limitPistol = model.getPistolNumber() - 10;
-                if(limitPistol < 0)
-                    limitPistol = 0;
 
                 Image ballImg = new Image("ball.png");
-                for(int i = limitPistol; i< model.getPistolNumber(); i++){
-                    if (!model.getPistolBallList()[i].getHasKilled()){
-                    model.getPistolBallList()[i].update(deltaTime, enemy.getVx() * 10);
-                    PistolBall ball = model.getPistolBallList()[i];
+                for(PistolBall ball : model.getPistolBallList()){
+                    ball.update(deltaTime, enemy.getVx() * 10);
                     context.fillOval(ball.getX() , ball.getY(), 10, 10);
                     for (Hero hero : model.getHeroList()){
                         if (ball.getY() > hero.getY() && ball.getY() > hero.getY() - hero.getW() && ball.getX() <= hero.getX() && !ball.getHasKilled()){
@@ -271,10 +258,7 @@ public class Controller {
                         }
                     }
                     ball.setHasKilled(true);
-
-
                 }
-            }
                 lastTime = now;
                 fireTimer = now;
 
