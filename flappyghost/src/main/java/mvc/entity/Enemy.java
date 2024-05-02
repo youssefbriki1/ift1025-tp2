@@ -66,7 +66,7 @@ public class Enemy {
         this.pieces += 1;
    }
 
-   public boolean checkCoin2(Coin coin){
+   public boolean checkCoin(Coin coin){
         double x1 = x + w/2;
         double y1 = y + h/2;
         double r1 = 0.5 * sqrt(w*w + h * h);
@@ -80,30 +80,11 @@ public class Enemy {
 
         double dist = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 
-        if(dist <= r1 + r2){
-            if(!coin.isEaten())
-                this.pieces += 1;
+        if(dist <= r1 + r2)
             return true;
-        }
         return false;
     }
 
-   public boolean checkCoin(Coin coin){
-        boolean fl = true;
-        if(
-               ( (this.x + this.w) < coin.getX() ) ||
-               ( (coin.getX() + coin.getW()) < this.x) ||
-               ( this.y > (coin.getY() + coin.getH()) ) ||
-               ( (this.y + this.h) < coin.getY() )
-        ){
-            fl = false;
-        }
-        else {
-            this.pieces += 1;
-        }
-
-        return fl;
-   }
 
    public boolean checkHero(Hero hero){
     if(

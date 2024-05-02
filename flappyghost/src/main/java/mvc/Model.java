@@ -11,20 +11,16 @@ public class Model {
     private Enemy enemy;
     private GameBackground background;
 
-    private Coin[] coinList = new Coin[100];
-    private boolean[] coinEaten = new boolean[100];
     private List<Hero> heroList = new CopyOnWriteArrayList<>();
     private int heroGenerated;
-    
-    private int coinMade;
 
-    private PistolBall[] pistolBallList = new PistolBall[100];
-    private int pistolNumber;
+    private List<Coin> coinList = new CopyOnWriteArrayList<>();
+
+    private List<PistolBall> pistolBallList = new CopyOnWriteArrayList<>();
 
     public Model(Enemy theEnemy, GameBackground background){
         this.enemy = theEnemy;
         this.background = background;
-        this.coinMade = 0;
         this.heroGenerated = 0;
     }
 
@@ -45,73 +41,30 @@ public class Model {
         this.background = background;
     }
 
-    public Coin[] getCoinList() {
+    public List<Coin> getCoinList() {
         return coinList;
     }
 
-    public int getCoinMade() {
-        return coinMade;
-    }
-
-    public boolean[] getCoinEaten() {
-        return coinEaten;
-    }
 
     public void addNewCoin(Coin theCoin){
-        coinList[coinMade] = theCoin;
-        coinEaten[coinMade] = false;
-        coinMade++;
-    }
-
-    public void markCoinAsEaten(int i){
-        this.coinEaten[i] = true;
-    }
-
-    public int eatenCoinCount(){
-        int res = 0;
-        for(int i = 0; i<coinMade; i++){
-            if( coinEaten[i]) res++;
-        }
-        return res;
+        coinList.add(theCoin);
     }
 
     public void addNewPistolBall(PistolBall theBall){
-        pistolBallList[pistolNumber] = theBall;
-        pistolNumber++;
+        pistolBallList.add(theBall);
     }
 
-    public void printCoinList(){
-        for(int i = 0; i<coinMade; i++){
-            System.out.print("[" + coinList[i].getX() + ", " + coinList[i].getY() + "] ");
-        }
-        System.out.println();
-    }
-
-    public PistolBall[] getPistolBallList() {
+    public List<PistolBall> getPistolBallList(){
         return pistolBallList;
     }
 
-    public int getPistolNumber() {
-        return pistolNumber;
-    }
 
-    public void printPistolList(){
-        for(int i = 0; i<pistolNumber; i++){
-            System.out.print("[" + pistolBallList[i].getX() + ", " + pistolBallList[i].getY() + "] ");
-        }
-        System.out.println();
-    }
 //  To be implemented 
     public void addHero(Hero hero){
         heroGenerated++;
         hero.setId(heroGenerated);
         heroList.add(hero);
         }
-
-    public void removeHero(Hero hero){
-        heroList.remove(hero);
-    }
-
     public int getHeroGenerated(){
         return heroGenerated;
     }
@@ -121,7 +74,10 @@ public class Model {
     }
     public void killHero(Hero Hero){
         heroList.remove(Hero);
+    }
 
+    public void removeCoin(Coin coin){
+        coinList.remove(coin);
     }
 
     // public static Hero createHero(){
