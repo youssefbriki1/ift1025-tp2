@@ -22,7 +22,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 public class Controller {
     private Model model;
     private View view;
@@ -44,7 +43,13 @@ public class Controller {
     private double enemyVx, enemyVy, enemyAy;
     private boolean isGameOver = false;
 
-    public Controller(Model m, View v){
+    /**
+     * Constructs a Controller object with the specified Model and View.
+     *
+     * @param m The Model object.
+     * @param v The View object.
+     */
+    public Controller(Model m, View v) {
         this.isGameOver = false;
         this.model = m;
         this.view = v;
@@ -55,25 +60,27 @@ public class Controller {
         WIDTH = 640;
         HEIGHT = 440;
 
-        this.view.setOnKeyPressed( ( event ) -> {
-            if( event.getCode() == KeyCode.SPACE && !this.isGameOver) {
-                System.out.println( "Space" );
+        this.view.setOnKeyPressed((event) -> {
+            if (event.getCode() == KeyCode.SPACE && !this.isGameOver) {
+                System.out.println("Space");
                 enemy.jump();
             }
         });
 
         this.view.getGameButton().setOnAction((action) -> {
             String txt = this.view.getGameButton().getText();
-            if(txt.equals("Pause")){
+            if (txt.equals("Pause")) {
                 this.pauseGame();
-            }
-            else{
+            } else {
                 this.resumeGame();
             }
         });
     }
 
-    public void pauseGame(){
+    /**
+     * Pauses the game by setting the enemy's acceleration and velocities to 0.
+     */
+    public void pauseGame() {
         this.view.getGameButton().setText("Resume");
         enemyAy = this.enemy.getAy();
         enemyVx = this.enemy.getVx();
@@ -84,7 +91,10 @@ public class Controller {
         isPlaying = false;
     }
 
-    public void resumeGame(){
+    /**
+     * Resumes the game by restoring the enemy's acceleration and velocities.
+     */
+    public void resumeGame() {
         this.view.getGameButton().setText("Pause");
         this.enemy.setAy(enemyAy);
         this.enemy.setVx(enemyVx);
@@ -92,13 +102,15 @@ public class Controller {
         isPlaying = true;
     }
 
-
-    public void coinGeneration(){
+    /**
+     * Generates coins at regular intervals while the game is playing.
+     */
+    public void coinGeneration() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(isPlaying){
+                if (isPlaying) {
                     Random rand = new Random();
                     int y_pos = rand.nextInt(370);
                     Image coinImg = new Image("coin.png");
@@ -106,9 +118,8 @@ public class Controller {
                     double h = coinImg.getHeight();
                     Coin coin = new Coin(640, y_pos, w, h);
                     System.out.println("Coin w " + w + " h " + h);
-                    System.out.println("Enemy w " + enemy.getW() + " h " + enemy.getH());
-
-
+                    System.out.println("Enemy w " + enemy.getW() + " h " + 
+                    enemy.getH());
 
                     model.addNewCoin(coin);
                 }
@@ -117,73 +128,91 @@ public class Controller {
 
     }
 
-        public void heroGenerator(){
-            Timer timer = new Timer();
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    if(isPlaying) {
-                        Random rand = new Random();
-                        int y_pos = rand.nextInt(300);
-                        // Hero creation
-                        Hero newHero;
-                        int heroType = (int) (Math.random() * 3);
-                        System.out.println("Hero type: " + heroType);
+    /**
+     * Generates heroes at regular intervals while the game is playing.
+     */
+    public void heroGenerator() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (isPlaying) {
+                    Random rand = new Random();
+                    int y_pos = rand.nextInt(300);
+                    // Hero creation
+                    Hero newHero;
+                    int heroType = (int) (Math.random() * 3);
+                    System.out.println("Hero type: " + heroType);
 
-                        double w = Math.random() * 40 + 40;
+                    double w = Math.random() * 40 + 40;
 
-                        if (heroType == 0) {
-                            // A corriger les positionnement
-                            newHero = new HandToHandHero(640 + Math.random() * 100, y_pos, "ball.png",0,0, w);
+                    if (heroType == 0) {
+                        // A corriger les positionnement
+                        newHero = new HandToHandHero(640 + Math.random() * 100
+                        , y_pos, "ball.png", 0, 0, w);
 
-                        } else if (heroType == 1) {
-                            // A corriger
-                            System.out.println(y_pos);
-                            newHero = new FurtiveHero(640 + Math.random() * 100, y_pos, "pessi.png",1,1, w);
-                        } else {
-                            // A corriger
-                            newHero = new TankHero(640 + Math.random() * 100, y_pos, "perry.png",100,100, w);
-                        }
-
-                        model.addHero(newHero);
-
+                    } else if (heroType == 1) {
+                        // A corriger
+                        System.out.println(y_pos);
+                        newHero = new FurtiveHero(640 + Math.random() * 100, 
+                        y_pos, "pessi.png", 1, 1, w);
+                    } else {
+                        // A corriger
+                        newHero = new TankHero(640 + Math.random() * 100, 
+                        y_pos, "perry.png", 100, 100, w);
                     }
 
+                    model.addHero(newHero);
+
                 }
-            }, 0, 2000); 
-        }
-    public void fireBall(){
+
+            }
+        }, 0, 2000);
+    }
+
+    /**
+     * Fires a pistol ball from the enemy if enough time has passed since 
+     * the last fire.
+     */
+    public void fireBall() {
         System.out.println("fireee");
-        if(fireTimer - lastFire > 1e9) {
+        if (fireTimer - lastFire > 1e9) {
             double x = enemy.getX() + enemy.getW() + 40;
             double y = enemy.getY() + enemy.getH() / 2;
             PistolBall theBall = new PistolBall(x, y);
             model.addNewPistolBall(theBall);
             lastFire = fireTimer;
-        }
-        else{
+        } else {
             System.out.println("Not enough time");
         }
     }
 
-    public void gameOver(){
+    /**
+     * Ends the game and saves the score to a file.
+     */
+    public void gameOver() {
         this.isGameOver = true;
         pauseGame();
         view.setGameOver();
+
+        // A terminer
         String fileName = "flappyghost\\src\\main\\java\\mvc\\bestScores.txt";
         String content = "\n Hello, Java! siuu";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter
+        (fileName, true))) {
             writer.write(content);
             System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
-            System.err.println("An error occurred while writing to the file.");
+            System.err.println("An error occurred while writing to the file."
+            );
             e.printStackTrace();
         }
     }
 
-    
-
-    public void gameAnimation(){
+    /**
+     * Starts the game animation loop and updates the game state.
+     */
+    public void gameAnimation() {
         Image enemyImg = new Image(enemy.getImg_url());
         Image backgroundImg = new Image(this.background.getImg_url());
         Image coinImg = new Image("coin.png");
@@ -201,82 +230,76 @@ public class Controller {
                 double deltaTime = (now - lastTime) * 1e-9;
                 context.clearRect(0, 0, WIDTH, HEIGHT);
 
-
-                //background movement
+                // background movement
                 background.update(deltaTime, Math.abs(enemy.getVx()));
                 context.drawImage(backgroundImg, background.getX(), 0);
                 context.drawImage(backgroundImg, background.getX() + 640, 0);
 
-
-                for(Hero hero : model.getHeroList()){
-                    if (hero instanceof TankHero && isPlaying){
+                for (Hero hero : model.getHeroList()) {
+                    if (hero instanceof TankHero && isPlaying) {
                         TankHero heroTank = (TankHero) hero;
                         heroTank.moving();
                         heroTank.setTankHeroMove(now);
-                    }
-                    else if (isPlaying){
+                    } else if (isPlaying) {
                         hero.moving();
                     }
 
-
-                hero.update(deltaTime, enemy.getVx());
-
+                    hero.update(deltaTime, enemy.getVx());
 
                     boolean ifTouch = enemy.checkHero(hero);
-                    if (hero.isAlive() && ifTouch && !hero.isDisabled()){
+                    if (hero.isAlive() && ifTouch && !hero.isDisabled()) {
                         hero.touched(enemy);
                         System.out.println("Touched");
 
-                       /* if(enemy.getLife() == 0){
-                            System.out.println("**** enemy" + enemy.getX() + " " + enemy.getY() + " " + enemy.getW() + " " + enemy.getH());
-                            System.out.println("**** hero " + hero.getX() + " " + hero.getY() + " " + hero.getW() + " " + hero.getH());
-                            context.fillOval(enemy.getX() - enemy.getW()/2, enemy.getY() - enemy.getH()/2, enemy.getW(), enemy.getH());
-                            context.fillOval(hero.getX(), hero.getY(), hero.getW(), hero.getH());
-
-                        }*/
                         hero.setTouched();
                         hero.setIsDisabled(true);
                     }
-                    
 
                     hero.moveHero(hero.getX(), hero.getY());
 
-                    if(!hero.isAdded()){
+                    if (!hero.isAdded()) {
                         ImageView heroView = hero.getHeroView();
                         root.getChildren().add(heroView);
                         hero.setAdded();
                     }
                 }
 
-                //coin movement
+                // coin movement
 
-                for(Coin theCoin: model.getCoinList()){
+                for (Coin theCoin : model.getCoinList()) {
                     theCoin.update(deltaTime, enemy.getVx());
                     boolean ifTouch = enemy.checkCoin(theCoin);
-                    if(ifTouch){
+                    if (ifTouch) {
                         enemy.increaseSpeed();
                         model.removeCoin(theCoin);
                         enemy.increaseCoin();
-                    }
-                    else if(theCoin.getX() < -60){
+                    } else if (theCoin.getX() < -60) {
                         model.removeCoin(theCoin);
-                    }
-                    else {
-                        context.drawImage(coinImg,  theCoin.getX() - theCoin.getW()/2,  theCoin.getY() - theCoin.getH()/2);
+                    } else {
+                        context.drawImage(coinImg, theCoin.getX() - 
+                        theCoin.getW() / 2,
+                                theCoin.getY() - theCoin.getH() / 2);
                     }
                 }
 
-                //update enemy
+                // update enemy
                 enemy.update(deltaTime);
-                context.drawImage(enemyImg, enemy.getX() - enemy.getW() / 2, enemy.getY() - enemy.getH() / 2);
-
+                context.drawImage(enemyImg, enemy.getX() - enemy.getW() / 2, 
+                enemy.getY() - enemy.getH() / 2);
 
                 Image ballImg = new Image("ball.png");
-                for(PistolBall ball : model.getPistolBallList()){
+                for (PistolBall ball : model.getPistolBallList()) {
                     ball.update(deltaTime, enemy.getVx() * 10);
-                    context.fillOval(ball.getX() , ball.getY(), 10, 10);
-                    for (Hero hero : model.getHeroList()){
-                        if (ball.getY() < hero.getY() + hero.getW() && ball.getY() > hero.getY() - hero.getW() && ball.getX() <= hero.getX() && !ball.getHasKilled()){
+                    context.fillOval(ball.getX(), ball.getY(), 10, 10);
+                    for (Hero hero : model.getHeroList()) {
+
+                        // Checking collisions with the ball
+
+                        if (ball.getY() < hero.getY() + hero.getW() && 
+                        ball.getY() > hero.getY() - hero.getW()
+                                && ball.getX() <= hero.getX() && 
+                                !ball.getHasKilled()) {
+
                             hero.isKilled(enemy);
                             System.out.println("Killed");
                             model.killHero(hero);
@@ -293,22 +316,17 @@ public class Controller {
                 view.updatePiece(coinCount);
                 int life = enemy.getLife();
                 view.updateLife(life);
-                if(life == 0){
+                if (life == 0) {
                     gameOver();
                     stop();
                 }
-
-
-
-
-
 
             }
         };
         timer.start();
     }
 
-    public void startGame(){
+    public void startGame() {
         coinGeneration();
         heroGenerator();
         gameAnimation();

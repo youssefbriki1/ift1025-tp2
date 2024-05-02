@@ -26,7 +26,7 @@ public class View extends BorderPane {
     private GraphicsContext context;
     private HBox hbox = new HBox(40);
     private Separator sep1 = new Separator();
-    private Text life = new Text("Life: 100"); // 100 is the default life - to edit
+    private Text life = new Text("Life: 100"); 
     private Separator sep2 = new Separator();
     private Text piece = new Text("Piece: 0");
 
@@ -34,9 +34,13 @@ public class View extends BorderPane {
 
     private Button gameButton = new Button("Pause");
 
+    /**
+     * Constructs a View object with the specified width and height.
+     *
+     * @param w The width of the view.
+     * @param h The height of the view.
+     */
     public View(int w, int h){
-
-
         this.w = w;
         this.h = h;
 
@@ -57,48 +61,97 @@ public class View extends BorderPane {
         hbox.getChildren().add(sep2);
         hbox.getChildren().add(piece);
 
-        hbox.setAlignment( Pos.TOP_CENTER);
+        hbox.setAlignment(Pos.TOP_CENTER);
 
         this.setBottom(hbox);
     }
 
+    /**
+     * Gets the width of the view.
+     *
+     * @return The width of the view.
+     */
     public int getW() {
         return w;
     }
 
+    /**
+     * Sets the width of the view.
+     *
+     * @param w The width of the view.
+     */
     public void setW(int w) {
         this.w = w;
     }
 
+    /**
+     * Gets the height of the view.
+     *
+     * @return The height of the view.
+     */
     public int getH() {
         return h;
     }
 
+    /**
+     * Sets the height of the view.
+     *
+     * @param h The height of the view.
+     */
     public void setH(int h) {
         this.h = h;
     }
 
+    /**
+     * Gets the graphics context of the canvas.
+     *
+     * @return The graphics context of the canvas.
+     */
     public GraphicsContext getContext(){
         return this.context;
     }
 
+    /**
+     * Gets the root pane of the view.
+     *
+     * @return The root pane of the view.
+     */
     public Pane getRoot(){
         return this.root;
     }
 
+    /**
+     * Updates the displayed piece count.
+     *
+     * @param pieces The new piece count.
+     */
     public void updatePiece(int pieces){
         String text = "Piece: " + pieces;
         this.piece.setText(text);
     }
 
+    /**
+     * Updates the displayed life count.
+     *
+     * @param life The new life count.
+     */
     public void updateLife(int life){
         String text = "Life: " + life;
         this.life.setText(text);
     }
+
+    /**
+     * Gets the game button.
+     *
+     * @return The game button.
+     */
     public Button getGameButton() {
         return gameButton;
     }
 
+    /**
+     * Sets the game over state and displays the game over image.
+     */
     public void setGameOver(){
         Image gameOver = new Image("gameover.png");
         context.drawImage(gameOver, 230, 100);

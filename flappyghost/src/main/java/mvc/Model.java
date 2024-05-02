@@ -18,85 +18,134 @@ public class Model {
 
     private List<PistolBall> pistolBallList = new CopyOnWriteArrayList<>();
 
-    public Model(Enemy theEnemy, GameBackground background){
+    /**
+     * Constructs a Model object with the specified enemy and game background.
+     *
+     * @param theEnemy   the enemy object in the game
+     * @param background the game background object
+     */
+    public Model(Enemy theEnemy, GameBackground background) {
         this.enemy = theEnemy;
         this.background = background;
         this.heroGenerated = 0;
     }
 
+    /**
+     * Returns the enemy object in the game.
+     *
+     * @return the enemy object
+     */
     public Enemy getEnemy() {
         return enemy;
     }
 
+    /**
+     * Sets the enemy object in the game.
+     *
+     * @param enemy the enemy object to set
+     */
     public void setEnemy(Enemy enemy) {
         this.enemy = enemy;
     }
 
+    /**
+     * Returns the game background object.
+     *
+     * @return the game background object
+     */
     public GameBackground getBackground() {
         return background;
     }
 
-
+    /**
+     * Sets the game background object.
+     *
+     * @param background the game background object to set
+     */
     public void setBackground(GameBackground background) {
         this.background = background;
     }
 
+    /**
+     * Returns the list of coins in the game.
+     *
+     * @return the list of coins
+     */
     public List<Coin> getCoinList() {
         return coinList;
     }
 
-
-    public void addNewCoin(Coin theCoin){
+    /**
+     * Adds a new coin to the game.
+     *
+     * @param theCoin the coin object to add
+     */
+    public void addNewCoin(Coin theCoin) {
         coinList.add(theCoin);
     }
 
-    public void addNewPistolBall(PistolBall theBall){
+    /**
+     * Adds a new pistol ball to the game.
+     *
+     * @param theBall the pistol ball object to add
+     */
+    public void addNewPistolBall(PistolBall theBall) {
         pistolBallList.add(theBall);
     }
 
-    public List<PistolBall> getPistolBallList(){
+    /**
+     * Returns the list of pistol balls in the game.
+     *
+     * @return the list of pistol balls
+     */
+    public List<PistolBall> getPistolBallList() {
         return pistolBallList;
     }
 
-
-//  To be implemented 
-    public void addHero(Hero hero){
+    /**
+     * Adds a new hero to the game.
+     *
+     * @param hero the hero object to add
+     */
+    public void addHero(Hero hero) {
         heroGenerated++;
         hero.setId(heroGenerated);
         heroList.add(hero);
-        }
-    public int getHeroGenerated(){
+    }
+
+    /**
+     * Returns the number of heroes generated in the game.
+     *
+     * @return the number of heroes generated
+     */
+    public int getHeroGenerated() {
         return heroGenerated;
     }
 
-    public List<Hero> getHeroList(){
+    /**
+     * Returns the list of heroes in the game.
+     *
+     * @return the list of heroes
+     */
+    public List<Hero> getHeroList() {
         return heroList;
     }
-    public void killHero(Hero Hero){
-        heroList.remove(Hero);
+
+    /**
+     * Removes a hero from the game.
+     *
+     * @param hero the hero object to remove
+     */
+    public void killHero(Hero hero) {
+        heroList.remove(hero);
     }
 
-    public void removeCoin(Coin coin){
+    /**
+     * Removes a coin from the game.
+     *
+     * @param coin the coin object to remove
+     */
+    public void removeCoin(Coin coin) {
         coinList.remove(coin);
     }
-
-    // public static Hero createHero(){
-    //     int heroType = (int) Math.random() * 3;
-    //     if(heroType == 0){
-    //         // A corriger les positionnement
-    //         return new HandToHandHero(Math.random(), Math.random(), null); 
-
-    //     }
-    //     else if(heroType == 1){
-    //         // A corriger
-    //         return new FurtiveHero(Math.random(), Math.random(), null);
-    //     }
-    //     else{
-    //         // A corriger
-    //         return new TankHero(heroType, heroType, null);
-    //     }
-    // }
-
-// Add how we can add types of Heroes
-
 }

@@ -1,6 +1,5 @@
 package mvc.entity;
 
-
 import javafx.scene.image.Image;
 
 import static java.lang.Math.sqrt;
@@ -18,8 +17,19 @@ public class Enemy {
     private int life = 100;
     private int pieces;
 
-
-    public Enemy(double x, double y, double vx, double vy, double ax, double ay, String img_url){
+    /**
+     * Constructs a new Enemy object.
+     *
+     * @param x       the initial x-coordinate of the enemy
+     * @param y       the initial y-coordinate of the enemy
+     * @param vx      the initial velocity in the x-direction of the enemy
+     * @param vy      the initial velocity in the y-direction of the enemy
+     * @param ax      the acceleration in the x-direction of the enemy
+     * @param ay      the acceleration in the y-direction of the enemy
+     * @param img_url the URL of the image for the enemy
+     */
+    public Enemy(double x, double y, double vx, double vy, double ax, 
+    double ay, String img_url) {
         this.x = x;
         this.y = y;
         this.vx = vx;
@@ -31,68 +41,72 @@ public class Enemy {
         Image enemyImg = new Image(img_url);
         this.w = enemyImg.getWidth();
         this.h = enemyImg.getHeight();
-
     }
 
-    public void jump(){
+    /**
+     * Makes the enemy jump by changing its vertical velocity.
+     */
+    public void jump() {
         vy = -300;
     }
 
-    //dt means delta t
-    public void update(double dt){
-
-        //calculate new velocity
-
-        //vx += dt * ax;
-
-        if(-300 <= vy && vy <= 300)
+    /**
+     * Updates the enemy's position and velocity based on the elapsed time.
+     *
+     * @param dt the elapsed time since the last update
+     */
+    public void update(double dt) {
+        if (-300 <= vy && vy <= 300)
             vy += dt * ay;
 
-        //new position
-
-        //double newX = x + dt * vx;
         double newY = y + dt * vy;
-
-
-        /*  if (newX + w / 2 > 640 || newX - w / 2 < 0) {
-            vx *= -1;
-        } else {
-            x = newX;
-        }*/
 
         if (newY + h / 2 > 400 || newY - h / 2 < 0) {
             vy *= -1;
-
         } else {
             y = newY;
         }
     }
 
-   public void increaseCoin(){
+    /**
+     * Increases the number of coins collected by the enemy.
+     */
+    public void increaseCoin() {
         this.pieces += 1;
-   }
+    }
 
-   public boolean checkCoin2(Coin coin){
+    /**
+     * Checks if the enemy collides with a coin using circle-circle collision 
+     * detection.
+     *
+     * @param coin the coin to check for collision
+     * @return true if the enemy collides with the coin, false otherwise
+     */
+    public boolean checkCoin2(Coin coin) {
         double x1 = x;
         double y1 = y;
-        //double r1 = 0.5 * sqrt(w*w + h * h);
-       double r1 = w/2;
+        double r1 = w / 2;
 
+        double coin_w = coin.getW();
+        double coin_h = coin.getH();
 
-       double coin_w = coin.getW();
-       double coin_h = coin.getH();
-
-       double x2 = coin.getX();
+        double x2 = coin.getX();
         double y2 = coin.getY();
-       // double r2 = 0.5 * sqrt(coin_w * coin_w + coin_h * coin_h);
-       double r2 = coin_w/2;
+        double r2 = coin_w / 2;
 
-       double dist = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+        double dist = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 
         return (dist <= r1 + r2);
     }
 
-    public boolean checkCoin(Coin theCoin){
+    /**
+     * Checks if the enemy collides with a coin using axis-aligned bounding
+     *  box collision detection.
+     *
+     * @param theCoin the coin to check for collision
+     * @return true if the enemy collides with the coin, false otherwise
+     */
+    public boolean checkCoin(Coin theCoin) {
         double x1 = x;
         double y1 = y;
         double w1 = w;
@@ -103,15 +117,22 @@ public class Enemy {
         double w2 = theCoin.getW();
         double h2 = theCoin.getH();
 
-        if ((x1 + w1/2 < x2 - w2/2) || (x2 + w2/2 < x1 - w1/2)
-        || (y2 + h2/2 < y1 - h1/2) || (y1 + h1/2 < y2 -  h2/2)){
+        if ((x1 + w1 / 2 < x2 - w2 / 2) || (x2 + w2 / 2 < x1 - w1 / 2)
+                || (y2 + h2 / 2 < y1 - h1 / 2) || (y1 + h1 / 2 < y2 - h2 / 2)) 
+                {
             return false;
         }
         return true;
     }
 
-
-    public boolean checkHero(Hero theHero){
+    /**
+     * Checks if the enemy collides with a hero using axis-aligned bounding box 
+     * collision detection.
+     *
+     * @param theHero the hero to check for collision
+     * @return true if the enemy collides with the hero, false otherwise
+     */
+    public boolean checkHero(Hero theHero) {
         double x1 = x;
         double y1 = y;
         double w1 = w - 15;
@@ -122,31 +143,37 @@ public class Enemy {
         double w2 = theHero.getW() - 15;
         double h2 = theHero.getH() - 15;
 
-        if ((x1 + w1/2 < x2) || (x2 + w2 < x1 - w1/2)
-                || (y2 + h2 < y1 - h1/2) || (y1 + h1/2 < y2)){
+        if ((x1 + w1 / 2 < x2) || (x2 + w2 < x1 - w1 / 2)
+                || (y2 + h2 < y1 - h1 / 2) || (y1 + h1 / 2 < y2)) {
             return false;
         }
         return true;
     }
 
-    public boolean checkHero2(Hero hero){
+    /**
+     * Checks if the enemy collides with a hero using circle-circle
+     *  collision detection.
+     *
+     * @param hero the hero to check for collision
+     * @return true if the enemy collides with the hero, false otherwise
+     */
+    public boolean checkHero2(Hero hero) {
         double x1 = x;
         double y1 = y;
-        double r1 = w/2;
-
+        double r1 = w / 2;
 
         double hero_w = hero.getW();
 
         double x2 = hero.getX();
         double y2 = hero.getY();
-        double r2 = hero_w/2;
-
+        double r2 = hero_w / 2;
 
         double dist = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 
         return (dist <= r1 + r2);
     }
 
+    // Getters and Setters
 
     public double getX() {
         return x;
@@ -236,7 +263,10 @@ public class Enemy {
         this.life = life;
     }
 
-    public void increaseSpeed(){
+    /**
+     * Increases the speed of the enemy by adjusting the acceleration and velocity.
+     */
+    public void increaseSpeed() {
         this.ay += 15;
         this.vx += 10;
     }

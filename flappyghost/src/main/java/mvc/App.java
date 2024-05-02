@@ -14,11 +14,13 @@ public class App extends Application {
     }
 
     @Override
-    public void start(Stage stage){
+    public void start(Stage stage) {
         View view = new View(640, 400);
 
-        Enemy enemy = new Enemy(100, 100, 120, 0, 0, 500, "cheems.png");
-        GameBackground background = new GameBackground(0, 120, "bg.png");
+        Enemy enemy = new Enemy(100, 100, 120, 0, 0,
+         500, "cheems.png");
+        GameBackground background = new GameBackground(0, 120, 
+        "bg.png");
         Model model = new Model(enemy, background);
 
         Controller controller = new Controller(model, view);
@@ -29,14 +31,13 @@ public class App extends Application {
         stage.setTitle("Flappy Ghost");
         stage.show();
 
-
-        scene.setOnKeyPressed( ( event ) -> {
-            if( event.getCode() == KeyCode.SPACE) {
-                System.out.println( "Space" );
+        scene.setOnKeyPressed((event) -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                System.out.println("Space");
                 enemy.jump();
             }
-            if( event.getCode() == KeyCode.E) {
-                System.out.println( "E" );
+            if (event.getCode() == KeyCode.E) {
+                System.out.println("E");
                 controller.fireBall();
             }
         });
