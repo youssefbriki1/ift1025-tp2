@@ -207,7 +207,7 @@ public class Controller {
         view.setGameOver();
 
         // Writing score into bestScores.txt
-        String fileName = "flappyghost\\src\\main\\java\\mvc\\bestScores.txt";
+        String fileName = "bestScores.txt";
 
         // Storing score and date in a HashMap
         HashMap<Integer, String> lines = new HashMap<>();

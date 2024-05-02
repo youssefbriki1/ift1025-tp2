@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import mvc.entity.Enemy;
 import mvc.entity.GameBackground;
 
-public class App extends Application {
+public class FlappyEnemy extends Application {
     public static void main(String[] args) throws Exception {
         // System.out.println("Hello, World!");
         launch(args);
