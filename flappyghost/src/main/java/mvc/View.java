@@ -61,7 +61,8 @@ public class View extends BorderPane {
         hbox.getChildren().add(sep2);
         hbox.getChildren().add(piece);
 
-        hbox.setAlignment(Pos.TOP_CENTER);
+        hbox.setAlignment(Pos.CENTER);
+        hbox.setPadding(new Insets(5, 40, 5, 40));
 
         this.setBottom(hbox);
     }
