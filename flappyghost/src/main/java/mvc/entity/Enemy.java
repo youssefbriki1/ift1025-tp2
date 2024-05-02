@@ -1,6 +1,8 @@
 package mvc.entity;
 
 
+import javafx.scene.image.Image;
+
 import static java.lang.Math.sqrt;
 
 public class Enemy {
@@ -26,6 +28,10 @@ public class Enemy {
         this.ay = ay;
         this.img_url = img_url;
         this.pieces = 0;
+        Image enemyImg = new Image(img_url);
+        this.w = enemyImg.getWidth();
+        this.h = enemyImg.getHeight();
+
     }
 
     public void jump(){
@@ -54,7 +60,7 @@ public class Enemy {
             x = newX;
         }*/
 
-        if (newY + h / 2 > 320 || newY - h / 2 < 0) {
+        if (newY + h / 2 > 400 || newY - h / 2 < 0) {
             vy *= -1;
 
         } else {
@@ -66,40 +72,80 @@ public class Enemy {
         this.pieces += 1;
    }
 
-   public boolean checkCoin(Coin coin){
-        double x1 = x + w/2;
-        double y1 = y + h/2;
-        double r1 = 0.5 * sqrt(w*w + h * h);
+   public boolean checkCoin2(Coin coin){
+        double x1 = x;
+        double y1 = y;
+        //double r1 = 0.5 * sqrt(w*w + h * h);
+       double r1 = w/2;
 
-        double coin_w = coin.getW();
-        double coin_h = coin.getH();
 
-        double x2 = coin.getX() + coin_w/2;
-        double y2 = coin.getY() + coin_h/2;
-        double r2 = 0.5 * sqrt(coin_w * coin_w + coin_h * coin_h);
+       double coin_w = coin.getW();
+       double coin_h = coin.getH();
 
-        double dist = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+       double x2 = coin.getX();
+        double y2 = coin.getY();
+       // double r2 = 0.5 * sqrt(coin_w * coin_w + coin_h * coin_h);
+       double r2 = coin_w/2;
 
-        if(dist <= r1 + r2)
-            return true;
-        return false;
+       double dist = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+        return (dist <= r1 + r2);
     }
 
+    public boolean checkCoin(Coin theCoin){
+        double x1 = x;
+        double y1 = y;
+        double w1 = w;
+        double h1 = h;
 
-   public boolean checkHero(Hero hero){
-    if(
-           ( (this.x + this.w) < hero.getX() ) ||
-           ( (hero.getX() + hero.getW()) < this.x) ||
-           ( this.y > (hero.getY() + hero.getH()) ) ||
-           ( (this.y + this.h) < hero.getY() )
-    ){
-        return false;
-    }
-    else {
+        double x2 = theCoin.getX();
+        double y2 = theCoin.getY();
+        double w2 = theCoin.getW();
+        double h2 = theCoin.getH();
+
+        if ((x1 + w1/2 < x2 - w2/2) || (x2 + w2/2 < x1 - w1/2)
+        || (y2 + h2/2 < y1 - h1/2) || (y1 + h1/2 < y2 -  h2/2)){
+            return false;
+        }
         return true;
     }
 
-}
+
+    public boolean checkHero(Hero theHero){
+        double x1 = x;
+        double y1 = y;
+        double w1 = w - 15;
+        double h1 = h - 15;
+
+        double x2 = theHero.getX();
+        double y2 = theHero.getY();
+        double w2 = theHero.getW() - 15;
+        double h2 = theHero.getH() - 15;
+
+        if ((x1 + w1/2 < x2) || (x2 + w2 < x1 - w1/2)
+                || (y2 + h2 < y1 - h1/2) || (y1 + h1/2 < y2)){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkHero2(Hero hero){
+        double x1 = x;
+        double y1 = y;
+        double r1 = w/2;
+
+
+        double hero_w = hero.getW();
+
+        double x2 = hero.getX();
+        double y2 = hero.getY();
+        double r2 = hero_w/2;
+
+
+        double dist = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+
+        return (dist <= r1 + r2);
+    }
 
 
     public double getX() {

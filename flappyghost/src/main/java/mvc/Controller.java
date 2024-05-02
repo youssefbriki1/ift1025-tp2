@@ -99,6 +99,9 @@ public class Controller {
                     double w = coinImg.getWidth();
                     double h = coinImg.getHeight();
                     Coin coin = new Coin(640, y_pos, w, h);
+                    System.out.println("Coin w " + w + " h " + h);
+                    System.out.println("Enemy w " + enemy.getW() + " h " + enemy.getH());
+
 
 
                     model.addNewCoin(coin);
@@ -167,8 +170,6 @@ public class Controller {
         Image backgroundImg = new Image(this.background.getImg_url());
         Image coinImg = new Image("coin.png");
 
-        //context.drawImage(enemyImg, 0, 0);
-
         AnimationTimer timer = new AnimationTimer() {
             private long lastTime = 0;
 
@@ -207,6 +208,14 @@ public class Controller {
                     if (hero.isAlive() && ifTouch && !hero.isDisabled()){
                         hero.touched(enemy);
                         System.out.println("Touched");
+
+                       /* if(enemy.getLife() == 0){
+                            System.out.println("**** enemy" + enemy.getX() + " " + enemy.getY() + " " + enemy.getW() + " " + enemy.getH());
+                            System.out.println("**** hero " + hero.getX() + " " + hero.getY() + " " + hero.getW() + " " + hero.getH());
+                            context.fillOval(enemy.getX() - enemy.getW()/2, enemy.getY() - enemy.getH()/2, enemy.getW(), enemy.getH());
+                            context.fillOval(hero.getX(), hero.getY(), hero.getW(), hero.getH());
+
+                        }*/
                         hero.setTouched();
                         hero.setIsDisabled(true);
                     }
@@ -235,7 +244,7 @@ public class Controller {
                         model.removeCoin(theCoin);
                     }
                     else {
-                        context.drawImage(coinImg,  theCoin.getX(),  theCoin.getY());
+                        context.drawImage(coinImg,  theCoin.getX() - theCoin.getW()/2,  theCoin.getY() - theCoin.getH()/2);
                     }
                 }
 
@@ -271,12 +280,15 @@ public class Controller {
                     stop();
                 }
 
+
+
+
+
+
             }
         };
         timer.start();
     }
-
-
 
     public void startGame(){
         coinGeneration();
