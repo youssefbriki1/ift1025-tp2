@@ -267,7 +267,7 @@ public class Controller {
                     ball.update(deltaTime, enemy.getVx() * 10);
                     context.fillOval(ball.getX() , ball.getY(), 10, 10);
                     for (Hero hero : model.getHeroList()){
-                        if (ball.getY() > hero.getY() && ball.getY() > hero.getY() - hero.getW() && ball.getX() <= hero.getX() && !ball.getHasKilled()){
+                        if (ball.getY() < hero.getY() + hero.getW() && ball.getY() > hero.getY() - hero.getW() && ball.getX() <= hero.getX() && !ball.getHasKilled()){
                             hero.isKilled(enemy);
                             System.out.println("Killed");
                             model.killHero(hero);
