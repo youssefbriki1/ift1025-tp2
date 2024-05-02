@@ -75,6 +75,10 @@ public class Enemy {
         this.pieces += 1;
     }
 
+    public int getCoin(){
+        return this.pieces;
+    }
+
     /**
      * Checks if the enemy collides with a coin using circle-circle collision 
      * detection.

@@ -15,12 +15,23 @@ import mvc.entity.HandToHandHero;
 import mvc.entity.FurtiveHero;
 import mvc.entity.TankHero;
 import mvc.Model;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class Controller {
     private Model model;
@@ -197,14 +208,39 @@ public class Controller {
 
         // A terminer
         String fileName = "flappyghost\\src\\main\\java\\mvc\\bestScores.txt";
-        String content = "\n Hello, Java! siuu";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter
-        (fileName, true))) {
-            writer.write(content);
-            System.out.println("Successfully wrote to the file.");
+
+        HashMap<Integer, String> lines = new HashMap<>();
+        // String content = enemy.getPieces() + " " + LocalDate.now() + "\n";
+        int pieces = enemy.getPieces();
+
+
+        LocalDate today = LocalDate.now();  // Fetches the current date
+        String todayString = today.toString(); // Convert LocalDate to String
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String secondPart = line.split(";")[1];
+                String firstPart = line.split(";")[0];
+                lines.put(Integer.parseInt(firstPart), secondPart);
+            }
         } catch (IOException e) {
-            System.err.println("An error occurred while writing to the file."
-            );
+            System.err.println("An error occurred while reading the file.");
+            e.printStackTrace();
+        }
+        lines.put(pieces, todayString);
+
+        List<Map.Entry<Integer, String>> entries = new ArrayList<>(lines.entrySet());
+        entries.sort(Map.Entry.comparingByKey(Comparator.reverseOrder()));
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            for (Map.Entry<Integer, String> line : entries) {
+                writer.write(line.getKey()+";"+line.getValue());
+                writer.newLine();
+            }
+            System.out.println("File written successfully with the new line inserted.");
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file.");
             e.printStackTrace();
         }
     }
