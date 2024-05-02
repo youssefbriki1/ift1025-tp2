@@ -206,9 +206,10 @@ public class Controller {
         pauseGame();
         view.setGameOver();
 
-        // A terminer
+        // Writing score into bestScores.txt
         String fileName = "flappyghost\\src\\main\\java\\mvc\\bestScores.txt";
 
+        // Storing score and date in a HashMap
         HashMap<Integer, String> lines = new HashMap<>();
         // String content = enemy.getPieces() + " " + LocalDate.now() + "\n";
         int pieces = enemy.getPieces();
@@ -220,27 +221,29 @@ public class Controller {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
+                // Putting the date in the HashMap
                 String secondPart = line.split(";")[1];
                 String firstPart = line.split(";")[0];
                 lines.put(Integer.parseInt(firstPart), secondPart);
             }
         } catch (IOException e) {
-            System.err.println("An error occurred while reading the file.");
             e.printStackTrace();
         }
+
+        // Adding the new score to the HashMap
         lines.put(pieces, todayString);
 
+        // Sorting the HashMap by key and putting it in a List
         List<Map.Entry<Integer, String>> entries = new ArrayList<>(lines.entrySet());
         entries.sort(Map.Entry.comparingByKey(Comparator.reverseOrder()));
 
+        // Writing the sorted List to the file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             for (Map.Entry<Integer, String> line : entries) {
                 writer.write(line.getKey()+";"+line.getValue());
                 writer.newLine();
             }
-            System.out.println("File written successfully with the new line inserted.");
         } catch (IOException e) {
-            System.err.println("An error occurred while writing to the file.");
             e.printStackTrace();
         }
     }
