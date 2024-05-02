@@ -18,6 +18,10 @@ import mvc.Model;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 public class Controller {
     private Model model;
@@ -38,8 +42,10 @@ public class Controller {
     private boolean isPlaying = true;
 
     private double enemyVx, enemyVy, enemyAy;
+    private boolean isGameOver = false;
 
     public Controller(Model m, View v){
+        this.isGameOver = false;
         this.model = m;
         this.view = v;
         this.enemy = m.getEnemy();
@@ -50,7 +56,7 @@ public class Controller {
         HEIGHT = 440;
 
         this.view.setOnKeyPressed( ( event ) -> {
-            if( event.getCode() == KeyCode.SPACE) {
+            if( event.getCode() == KeyCode.SPACE && !this.isGameOver) {
                 System.out.println( "Space" );
                 enemy.jump();
             }
@@ -159,9 +165,21 @@ public class Controller {
     }
 
     public void gameOver(){
+        this.isGameOver = true;
         pauseGame();
         view.setGameOver();
+        String fileName = "flappyghost\\src\\main\\java\\mvc\\bestScores.txt";
+        String content = "\n Hello, Java! siuu";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            writer.write(content);
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file.");
+            e.printStackTrace();
+        }
     }
+
+    
 
     public void gameAnimation(){
         Image enemyImg = new Image(enemy.getImg_url());
