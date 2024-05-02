@@ -127,7 +127,13 @@ public class View extends BorderPane {
      * @param pieces The new piece count.
      */
     public void updatePiece(int pieces){
-        String text = "Piece: " + pieces;
+        String text;
+        if (pieces > 1000){
+            text = "Merci Robin!";
+        }
+        else{
+            text = "Piece: " + pieces;
+        }
         this.piece.setText(text);
     }
 
